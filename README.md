@@ -104,39 +104,23 @@ The goal is to analyze the Data Analyst/Engineer jobs from various recruiting we
 <br>
 
 ## Acquire
-```python
-base_url = f"https://github.com/search?q=stars%3A%3E0+language%3A{language}&type=repositories&l={language}&p={page}"
 
+Data was downloaded from Kaggle as a .csv
 
-def fetch_readmes(languages=["c++", "go", "html", "java", "javascript", "python", "ruby", "typescript"],
-                  num_repos=5,
-                  start_page=1,
-                  sleep_time=1,
-                  verbose=True)
-```
+Link: https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search/data?select=gsearch_jobs.csv
 
 **Parameters:**
 
-- `languages (list)`: A list of programming languages to search for.
+- 
 
-- `num_repos (int)`: The number of repositories to fetch README files from.
+- 
 
-- `start_page (int)`: The page number to start searching from.
+- 
 
-- `sleep_time (int)`: The number of seconds to wait between requests.
+- 
 
-- `verbose (bool)`: Whether to print progress messages.
+- 
 
-### Takeaways from Scraping/API
-
-- Trying to run all 800 at once, we kept failing for different reasons, so we broke it up, and cached each language as we went.
-
-- With 1 second sleeps on 100 requests, we got a 429 status error (too many requests at 42 fetches)
-    - We'll have to either chunk it into less pages, or increase sleeps<br><br>
-
-- With 5 second sleeps, 100 repos took 10 minutes 11 seconds total.
-
-- With 2 second sleeps, it took 5:30 and we did not get rate limited.
 
 <br>
 <br>
