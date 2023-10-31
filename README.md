@@ -62,7 +62,7 @@ Joshua Click<br>
 
 ### Project Goal
 
-The goal is to analyze the Data Analyst/Engineer jobs from various recruiting websites and see if we can find what the most requested skills are and which ones are the most highly compensated skills.
+Our main goal of the project is to deliver a dashboard to show skill sets that are in demand. We will be using machine learning models to validate that the analysis conducted is sound and accurate.
 
 ## Plan → Acquire → Prepare → Explore → Model → Deliver
 
@@ -105,7 +105,7 @@ The goal is to analyze the Data Analyst/Engineer jobs from various recruiting we
 
 ## Acquire
 
-Data was downloaded from Kaggle as a .csv
+Data originated from Google Jobs “Data Analyst” postings. While we built a web scraper to pull the data ourselves, this Kaggle Dataset already has a year's worth of data and is adding 100~ daily by automation.
 
 Link: https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search/data?select=gsearch_jobs.csv
 
