@@ -7,7 +7,6 @@
  
 Zacharia Schmitz<br>
 Joshua Click<br>
-Aswathy Radha<br>
 24 October 2023<br>
 
 <p style="text-align: center;"> 
@@ -39,53 +38,31 @@ Aswathy Radha<br>
 
 ---
 
-
-<br>
-<br>
-
-#### From GitHub regarding webscraping and API usage:
-
-#### Rate Limits & Ethics
-*from GitHub regarding webscraping and API usage*
-
-[**GitHub Acceptable Use Policies**](https://docs.github.com/en/github/site-policy/github-acceptable-use-policies)
-> <br>
->"Short version: We host a wide variety of collaborative projects from all over the world, and that collaboration only works when our users are able to work together in good faith. While using the Service, you must comply with our Acceptable Use Policies, which include some restrictions on content and conduct on GitHub related to user safety, intellectual property, privacy, authenticity, and other limitations. In short, be excellent to each
->other."
-> <br> <br>
-
-<br>
-
----
-
-
 <br>
 
 ## Overview
 
 
 
-##### We'll pull 100 README pages for each language.
+##### We downloaded the data from Kaggle as a .csv
 
-1. Decide Languages
+1. Decide how to clean / prep the data.
 
-2. Acquire Repos
+2. Text Preprocessing
 
-3. Data Cleaning
+2. Explore Separately to see the data from different angles.
 
-4. Text Preprocessing
+3. Feature Extraction
 
-5. Feature Extraction
+4. Model Training
 
-6. Model Training
-
-7. Reusable Functionality
+5. Reusable Functioinality in the Form of a Dashboard
 
 ---
 
 ### Project Goal
 
-The goal is to build a model that can predict the main programming language of a repository, given the text of the README file.
+The goal is to analyze the Data Analyst/Engineer jobs from various recruiting websites and see if we can find what the most requested skills are and which ones are the most highly compensated skills.
 
 ## Plan → Acquire → Prepare → Explore → Model → Deliver
 
@@ -93,11 +70,13 @@ The goal is to build a model that can predict the main programming language of a
 
 ### Project Description
 
-- With the Term Frequency-Inverse Document Frequency (TF-IDF) we'll weigh the term frequency (TF) with the inverse document frequency (IDF), which is a weight based on how many documents the word is in.
+- NLP: To find commonalities in posts.
 
-- We'll utilize the TF-IDF, with our logistic regression model, to predict the language of the README file.
+- Classification: To predict the location, job type, etc. based on other features
 
-- Once both created, we'll export the TF-IDF and logistic regression as .pkl files to be applied with the created function, to be used on outside of set README strings.
+- Regression: To predict pay based on location/skills
+
+- Dashboard: Possibly include drop down boxes for skill/locations/job titles to demonstrate full stack data science capabilities
 
 <br>
 
@@ -109,21 +88,13 @@ The goal is to build a model that can predict the main programming language of a
 
 ### Initial Questions / Hypotheses
 
-1. What are the most common words in READMEs?
+1. What skills are most common between job postings?
 
-    - READMEs pertaining to specific languages will have higher frequencies of certain keywords. JavaScript project might frequently mention "Node.js", "npm", or "React".
+2. Which skills pay the most?
 
-2. Do different programming languages use a different number of unique words?
+3. What are the most common locations for work?
 
-    - The mention of specific libraries or frameworks in the README can be indicative of the programming language. For instance, "Django" or "Flask" would be strong indicators for Python.
-
-3. Are there any words that uniquely identify a programming language?
-
-    - Certain phrases might be more commonly associated with specific languages. For example, "front-end" might be more associated with languages like JavaScript, while "data analysis" might be linked to Python or R.
-
-4. Do certain languages have overlapping libraries?
-
-    - The way dependencies are installed and managed can be a hint. Commands like pip install point towards Python, while npm install points towards JavaScript.
+4. 
 
 <br>
 
