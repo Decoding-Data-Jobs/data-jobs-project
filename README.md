@@ -155,41 +155,41 @@ Link: https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-goo
 
 ## Preparing Data
 
-* Removed all newline characters using the `re.sub` function.
+* 
 
-* Removed all URLs using the `re.sub` function.
+* 
 
-* Removed all HTML tags using the `re.sub` function.
+* 
 
-* Replaced all hyphens with spaces using the `re.sub` function.
+* 
 
-* Removed all punctuation characters using a list comprehension and the `string.punctuation` constant.
+* 
 
-* Converted the text to lowercase using the `str.lower` method.
+* 
 
-* Removed extra white spaces using the `str.split` and `str.join` methods.
+* 
 
-* Loaded the list of stopwords using the `stopwords.words` function from the `nltk.corpus` module.
+* 
 
-* Adds custom stopwords to the list using the `set.update` method.
+* 
 
-* Tokenized the text using the `word_tokenize` function from the `nltk.tokenize` module.
+* 
 
-* Removed all stopwords from the list of tokens using a list comprehension.
+* 
 
-* Joins the list of tokens back into a string using the `str.join` method.
+* 
 ---
 <br>
 
 ## Explore
 
-1. What are the most common words in READMEs?
+1. 
 
-2. Does the length of the README vary by programming language?
+2. 
 
-3. Do different programming languages use a different number of unique words?
+3. 
 
-4. Are there any words that uniquely identify a programming language?
+4. 
 
 <br>
 <br>
