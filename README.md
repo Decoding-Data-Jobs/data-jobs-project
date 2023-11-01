@@ -1,24 +1,15 @@
 <div align="center">
 
-<<<<<<< HEAD
 # **Decoding Data Jobs**
 ##### *Analyzing job postings to find desired skill sets for aspiring data nerds.*
 
 </div>
-=======
-# **Decoding the Data Job Market: An Analysis of Data Job Postings**
-</p>
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 ---
  
 Zacharia Schmitz<br>
 Joshua Click<br>
-<<<<<<< HEAD
 October - November 2023<br>
-=======
-24 October 2023<br>
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 <div align="center">
 
@@ -50,25 +41,11 @@ October - November 2023<br>
 
 ---
 
-<<<<<<< HEAD
 ## **Overview**
 
 1. Decide Source
 
 2. Acquire Job Postings
-=======
-<br>
-
-## Overview
-
-
-
-##### We downloaded the data from Kaggle as a .csv
-
-1. Decide how to clean / prep the data.
-
-2. Text Preprocessing
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 2. Explore Separately to see the data from different angles.
 
@@ -76,61 +53,21 @@ October - November 2023<br>
 
 4. Model Training
 
-<<<<<<< HEAD
 6. Model Training
 
 7. Dashboard (Presenting Model-Validated Findings)
 
-=======
-5. Reusable Functioinality in the Form of a Dashboard
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 ---
 
 ## **Project Goal**
 
-<<<<<<< HEAD
 **Goal Text Here**
-=======
-Our main goal of the project is to deliver a dashboard to show skill sets that are in demand. We will be using machine learning models to validate that the analysis conducted is sound and accurate.
-
-## Plan → Acquire → Prepare → Explore → Model → Deliver
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 --- 
 
 ## **Project Description**
 
-<<<<<<< HEAD
-**Description Here**
-
----
-
-
-<br>
-
-## **Initial Questions and Hypotheses**
-
-1. Question 1
-
-    - Answer 1
-
-2. 2
-
-    - 2
-
-3. 3
-
-    - 3
-
-4. 4
-
-    - 4
-
-5. 5
-
-    - 5
-=======
 - NLP: To find commonalities in posts.
 
 - Classification: To predict the location, job type, etc. based on other features
@@ -138,7 +75,6 @@ Our main goal of the project is to deliver a dashboard to show skill sets that a
 - Regression: To predict pay based on location/skills
 
 - Dashboard: Possibly include drop down boxes for skill/locations/job titles to demonstrate full stack data science capabilities
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 <br>
 
@@ -150,17 +86,6 @@ Our main goal of the project is to deliver a dashboard to show skill sets that a
 
 ## **Acquire**
 
-<<<<<<< HEAD
-#### *Rate Limits & Ethics*
-
-[**Google's Robots.txt**](google.com/robots.txt)
-
-```
-User-agent: *
-Disallow: /search
-
-```
-=======
 1. What skills are most common between job postings?
 
 2. Which skills pay the most?
@@ -181,11 +106,9 @@ Disallow: /search
 Data originated from Google Jobs “Data Analyst” postings. While we built a web scraper to pull the data ourselves, this Kaggle Dataset already has a year's worth of data and is adding 100~ daily by automation.
 
 Link: https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search/data?select=gsearch_jobs.csv
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 Google's Terms of Service explicitly disallow scraping of its services without permission. Scraping can lead to legal consequences. Although Google does not take legal action against scraping, it uses a range of defensive methods that makes scraping their results a challenging task, even when the scraping tool is realistically spoofing a normal web browser.
 
-<<<<<<< HEAD
 Offending IPs and offending IP networks can easily be stored in a blacklist database to detect offenders much faster. Using a proxy or VPN is necessary for anything outside of human-like.
 
 We managed to very slowly scrape several hundred job postings using Selenium, but in order to perform accurate large scale analysis, we'd need much more time, or a much larger dataset.
@@ -197,20 +120,6 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 ![Kaggle Dataset](https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search)
 <br> <br>
 
-=======
-- 
-
-- 
-
-- 
-
-- 
-
-- 
-
-
-<br>
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 <br>
 
 ---
@@ -268,34 +177,8 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 ## **Preparing Data**
 
-<<<<<<< HEAD
 *prep steps here*
 
-=======
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
-
-* 
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 ---
 <br>
 
@@ -308,11 +191,8 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 3. 
 
 4. 
-<<<<<<< HEAD
 
 5. 
-=======
->>>>>>> 4beeb59e4937579ecf71ef59737fa9151248c478
 
 <br>
 <br>
