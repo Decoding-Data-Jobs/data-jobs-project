@@ -47,28 +47,17 @@ Words
 
 """)
 
+@st.cache_resource
+def load_original_data():
+    return pd.read_csv('../support_files/working_docs/jobs.csv')
+
+data = load_original_data()
+csv1 = data.to_csv(index=False)
+
+st.download_button(
+    label="Download Original Data (156MB)",
+    data=csv1,
+    file_name="data_jobs.csv",
+    mime="csv")
+
 st.dataframe(data)
-
-st.markdown("""
-### Preparation
-
-Words
-""")
-
-st.dataframe(jobs_df_cleaned)
-
-st.markdown("""
-
-### Exploration
-
-Words
-
-### Modeling
-
-Words
-
-### Delivery
-
-Words
-
-""")
