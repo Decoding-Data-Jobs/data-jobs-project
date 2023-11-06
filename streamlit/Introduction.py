@@ -33,6 +33,16 @@ def load_original_data():
 data = load_original_data()
 
 st.markdown("""
+<div style="text-align: center"> 
+
+# Decoding Data Jobs
+
+(picture here)
+
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
 # Introduction
 
 Words and things
