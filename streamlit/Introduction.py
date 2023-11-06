@@ -27,10 +27,6 @@ def load_full_data():
 
 jobs_df_cleaned = load_full_data()
 
-def load_original_data():
-    return pd.read_csv('../support_files/working_docs/jobs_stripped.csv')
-
-data = load_original_data()
 
 st.markdown("""
 <div style="text-align: center"> 
