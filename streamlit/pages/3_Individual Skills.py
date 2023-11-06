@@ -9,7 +9,7 @@ st.set_page_config(page_title="Average Skill Salaries", page_icon="💰", layout
 def interactive_skill_salary():
     # Load the data
     top_skills_df = pd.read_csv('../support_files/working_docs/top_skills.csv')
-    jobs_df_cleaned = pd.read_csv('../support_files/working_docs/jobs_df_cleaned.csv')
+    jobs_df_cleaned = pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
 
     # Get the top skills sorted alphabetically
     sorted_skills = sorted(top_skills_df['skill'].unique())
