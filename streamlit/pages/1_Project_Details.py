@@ -1,6 +1,4 @@
 import streamlit as st
-
-import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -11,18 +9,11 @@ st.set_page_config(page_title="Project Details", page_icon=None, layout="wide", 
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
 
-def load_original_data():
-    return pd.read_csv('../support_files/working_docs/jobs.csv')
+@st.cache_resource
+def load_full_data():
+    return pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
 
-data = load_original_data()
-
-csv = data.to_csv(index=False)
-st.download_button(
-    label="Download Original Data (150MB)",
-    data=csv,
-    file_name="data_jobs.csv",
-    mime="csv",
-)
+jobs_df_cleaned = load_full_data()
 
 def plot_monthly_postings():
     # Load the data
@@ -78,16 +69,28 @@ def about_page():
     associated with each skill.
     """)
 
-    st.markdown(""" ## Header:
-    Context
+    st.markdown("""
+    ### Preparation
+
+    Words
     """)
 
-    st.markdown(""" ## Header:
-    Context
-    """)
+    st.dataframe(jobs_df_cleaned)
 
-    st.markdown(""" ## When we got it:
-    Year's worth of data
+    st.markdown("""
+
+    ### Exploration
+
+    Words
+
+    ### Modeling
+
+    Words
+
+    ### Delivery
+
+    Words
+
     """)
 
     plot_monthly_postings()
