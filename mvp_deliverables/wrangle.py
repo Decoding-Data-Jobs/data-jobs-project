@@ -21,11 +21,11 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import MWETokenizer, word_tokenize
 from ipywidgets import interact, widgets
 
-# +--------------------+
-# |                    |
-# |  K E Y W O R D S   |
-# |                    |
-# +--------------------+
+# +------------------------------------------+
+# |                                          |
+# |   D E F I N I N G     K E Y W O R D S    |
+# |                                          |
+# +------------------------------------------+
 
 # Picked out keywords based on all keywords (only looked words with 100+ occurrences)
 keywords_programming = [
