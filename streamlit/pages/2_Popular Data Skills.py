@@ -123,26 +123,31 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
     # Select top N skills based on frequency
     df = df.nlargest(top_n, 'frequency (%)')
 
-    fig = px.bar(df, x='skill', y='frequency (%)',
-                 color='avg_yearly_salary', color_continuous_scale='Blues')
+    with st.container():
 
-    fig.update_traces(textfont_size=40,
-                      hovertemplate='''
-    <b>Skill:</b> %{x} <br> \
-    <b>Frequency:</b> %{y}% <br> \
-    <b>Average Salary:</b> $%{marker.color}<extra></extra>''',
-                    hoverlabel=dict(font_size=20))
+        # Display Title
+        st.title(f'Data Jobs')
+        st.subheader(f'Salaries and Popularity')
 
-    fig.update_layout(
-        title_text="<b style='font-size: 60px;'>Data Jobs</b><br><br><i style='font-size: 30px;'>Salaries and Popularity</i>", 
-        font_color="white",
-        coloraxis_colorbar=dict(title="Average Annual Salary"),
-        height=400,
-        width=1200,
-)
+        fig = px.bar(df, x='skill', y='frequency (%)',
+                    color='avg_yearly_salary', color_continuous_scale='Blues')
+
+        fig.update_traces(textfont_size=40,
+                        hovertemplate='''
+        <b>Skill:</b> %{x} <br> \
+        <b>Frequency:</b> %{y}% <br> \
+        <b>Average Salary:</b> $%{marker.color}<extra></extra>''',
+                        hoverlabel=dict(font_size=20))
+
+        fig.update_layout( 
+            font_color="white",
+            coloraxis_colorbar=dict(title="Average Annual Salary"),
+            height=600,
+            width=1200,
+    )
 
 
-    st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
 # Call the function with your data
 plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_Algorithms, keyword_viz, keyword_bi, keyword_bi_2, keywords_cloud_tools, keyword_big_data)
