@@ -13,7 +13,7 @@ October - November 2023<br>
 
 <div align="center">
 
-![No picture yet](images/topskills.png)
+![No picture yet](/support_files/images/topskills.png)
 
 *Top skills in data job postings*
 
@@ -148,7 +148,7 @@ With most job postings not including pay information, this would increase the de
 
 <div align="center">
 
-![Alt text](images/datadict.png)
+![Alt text](/support_files/images/datadict.png)
 
 ### Definitions
 
@@ -220,7 +220,7 @@ With most job postings not including pay information, this would increase the de
 
 - Schedule Types
 
-![Alt text](images/prepped_dict.png)
+![Alt text](/support_files/images/prepped_dict.png)
 
 ---
 <br>
