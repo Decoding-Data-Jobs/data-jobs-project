@@ -13,9 +13,9 @@ October - November 2023<br>
 
 <div align="center">
 
-![No picture yet](images/output.png)
+![No picture yet](images/topskills.png)
 
-*Picture of dashboard deliverable when completed*
+*Top skills in data job postings*
 
 </div>
 
@@ -43,7 +43,7 @@ October - November 2023<br>
 
 ## **Overview**
 
-1. Decide Source
+1. Decide Source & Scope
 
 2. Acquire Job Postings
 
@@ -55,29 +55,35 @@ October - November 2023<br>
 
 6. Model Training
 
-7. Dashboard (Presenting Model-Validated Findings)
+7. Deliverable / Dashboard (Presenting Model-Validated Findings)
 
 
 ---
 
 ## **Project Goal**
 
-**To develop a dynamic tool to assist aspiring Data Analysts to navigate the Job Market / Job Posts**
+**Deliver insights to potential data job applicants.**
 
 --- 
 
 ## **Project Description**
 
-**Webscraping Google for job posts, analyzing these posts for most common skills / salaries / sectors / etc. and creating a dashboard for ease of access to visualize different aspects of the job postings**
+**We developed a dynamic tool that empowers aspiring data analysts to navigate the job market with precision and confidence.**
+
+*Our project uses 33,000 job postings that were scraped from Google and then processed with machine learning models to validate the results. We're not just sifting through text; we're decoding the jargon of job descriptions to help future data analysts on the hunt for their dream roles. We provide them with a competitive edge by revealing the skills, qualifications, and trends that matter most.* 
 
 ---
 
 
 <br>
 
-## **Hypothesis**
+## **Hypotheses**
 
-We can pull job postings for data analysts and specify where the jobs are coming from, most postings by location, salaries, and determine if they are scientist, engineer, or analyst positions. 
+- Data scientists and engineers have a more technical skillset compared to analysts
+
+- Data scientists and engineers typically make more than analysts
+
+- Data analyst roles oftentimes aren't clearly defined and include more advanced skills like machine learning
 
 <br>
 
@@ -89,30 +95,49 @@ We can pull job postings for data analysts and specify where the jobs are coming
 
 ## **Acquire**
 
-#### *Rate Limits & Ethics*
+We originally intended on pulling all of the data myself using LinkedIn webscraping or another job resource.
 
-[**Google's Robots.txt**](google.com/robots.txt)
+We were able to use a scraper for LinkedIn, but after reading into it, they don't like that and have been known to send cease and desist letters.
 
-```
-User-agent: *
-Disallow: /search
+### **Getting our dataset from Google Jobs**
 
-```
+For decent analysis, we would need a fairly large dataset.
 
-Google's Terms of Service explicitly disallow scraping of its services without permission. Scraping can lead to legal consequences. Although Google does not take legal action against scraping, it uses a range of defensive methods that makes scraping their results a challenging task, even when the scraping tool is realistically spoofing a normal web browser.
+With most job postings not including pay information, this would increase the demand for a large dataset even more.
 
-Offending IPs and offending IP networks can easily be stored in a blacklist database to detect offenders much faster. Using a proxy or VPN is necessary for anything outside of human-like.
+#### **1. Use their API**
 
-We managed to very slowly scrape several hundred job postings using Selenium, but in order to perform accurate large scale analysis, we'd need much more time, or a much larger dataset.
+- You'll need an API key from their [dev website](https://developers.google.com/custom-search/v1/overview)
 
-#### *Kaggle Dataset*
+- You can get 100 search queries per day for free.
 
-While it was undesirable to use a public dataset for analysis, I was able to find a Kaggle dataset that has been updating daily for the past year. The dataset is currently around 150MB and 33,000 different job postings from around the United States.
+- At a cost of $5 per 1,000, you can get up to 10,000.
 
-![Kaggle Dataset](https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search)
-<br> <br>
+- The downside to using their API, people often complain that their API results, aren't true to what searches are actually returning.
 
-<br>
+- We also was not able to see if people could use the API for job posting searches.
+
+#### **2. Scrape the normal result pages**
+
+- While Google does not officially allow it, scraping the search engine results page (SERP) is also an option
+
+- Google seems to have very sophisticated technology when it comes to scraping their pages
+
+- If you scrape at a rate higher than 8 keyword requests per hour you risk detection
+
+- If you push it higher than 10 per hour, this will oftentimes get you blocked
+
+- By using multiple IPs you can up the rate (100 IPs = 1,000 requests)
+
+- There is also an [open source search engine scraper](http://scraping.compunect.com) written in PHP, that can manage proxies and other detection avoidance methods
+
+#### **3. Use a Scraping Service**
+
+- There seem to be many services that offer to do the webscraping
+
+- The one that the Kaggle dataset used to scrape was SerpAPI
+
+- Their cost was as low as $50 for 5,000 searches per month or as high as $250 for 30,000 searches a month
 
 ---
 
@@ -127,35 +152,37 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 ### Definitions
 
-| Column | Definition |
-|--------|-----------|
-|`Unnamed: 0`|DROPPED - Extra column created when owner exported CSV|
-|`index`|DROPPED - Extra column created when owner exported CSV|
-|`title`|The job title from the job posting|
-|`company_name`|The company name from the job posting|
-|`location`|The location of the job from the posting|
-|`via`|The original posting location|
-|`description`|The job description from Google Jobs search|
-|`extensions`|Tags generated by Google, age of post, pay range, benefits, etc - will be parsed through|
-|`job_id`|Looks to be a unique ID for the job posting - will try to reverse engineer to be useful|
-|`thumbnail`|DROPPED - The thumbnail of the company from the Google Jobs posting|
-|`posted_at`|How long ago the job was posted, from time of scraping|
-|`schedule_type`|The working schedule of job - Ex: Full-time, part-time, etc.|
-|`work_from_home`|If the job is work from home aka remote|
-|`salary`|The pay for the postion - non-standardized (hourly, annual range, etc.)|
-|`search_term`|DROPPED - The original search term to find the job posting on Google Jobs|
-|`date_time`|The date/time that the job posting was pulled|
-|`search_location`|DROPPED - The country the search was filtered for (United States)|
-|`commute_time`|DROPPED - The commute time field from Google Jobs - Null only|
-|`salary_pay`|The pay for the postion - non-standardized (hourly, annual range, etc.)|
-|`salary_rate`|The rate of labeled pay - *hourly, weekly, monthly, annually*|
-|`salary_avg`|If provided a range, the average between the min and max|
-|`salary_min`|Lower end of the salary range, if available|
-|`salary_max`|Higher end of the salary range, if available|
-|`salary_hourly`|Hourly pay, if available|
-|`salary_yearly`|Annual salary, if available|
-|`salary_standardized`|Calculated annual salary, if any rate of pay is provided|
-|`description_tokens`|Tokenized skills pulled from description column|
+| Field Name | Description |
+| --- | --- |
+| `Unnamed: 0` | Appears to be an auto-incremented identifier. |
+| `index` | Another identifier, possibly redundant with "Unnamed: 0". |
+| `title` | Job title. |
+| `company_name` | Name of the company offering the job. |
+| `location` | Location of the job. |
+| `via` | Source/platform where the job was posted. |
+| `description` | Detailed description of the job. |
+| `extensions` | Additional information about the job (e.g., job type, benefits). |
+| `job_id` | A unique identifier for the job, possibly encoded. |
+| `thumbnail` | URL to a thumbnail image associated with the job/company. |
+| `url` | URL for the job posting. |
+| `company_description` | Description of the company. |
+| `company_rating` | Company's rating. |
+| `rating_count` | Number of ratings the company received. |
+| `job_type` | Type of the job (e.g., full-time, part-time). |
+| `benefits` | List of benefits provided by the company. |
+| `posted` | When the job was posted. |
+| `deadline` | Application deadline for the job. |
+| `employment_type` | Employment type (e.g., full-time, contract). |
+| `commute_time` | Information on commute time, if available. |
+| `salary_pay` | Salary payment value, if available. |
+| `salary_rate` | Salary rate (e.g., per hour, per year), if available. |
+| `salary_avg` | Average salary for the job, if available. |
+| `salary_min` | Minimum salary for the job, if available. |
+| `salary_max` | Maximum salary for the job, if available. |
+| `salary_hourly` | Hourly salary, if available. |
+| `salary_yearly` | Yearly salary, if available. |
+| `salary_standardized` | Standardized salary information, if available. |
+| `description_tokens` | List of skills extracted from the job description. |
 
 </div>
 
@@ -169,47 +196,31 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 ## **Preparing Data**
 
-1. Redundant Columns
+- Drop Columns
 
-    1. Dropped: `Unnamed: 0`,`extensions`, `index`, `thumbnail`, `search_term`, `commute_time`, `search_location`
+- Check for Duplicates
 
-    2. Dropped: `salary_yearly`, `salary_hourly`, `salary_min`, `salary_max`, `salary_pay`, `salary_rate`, `description_tokens`
+- Handling Missing Data
 
-2. Missing Data
+- Work From Home
 
-    1. Lots of Nulls in data for `work_from_home`, so we imputed the data with true / false
+- Feature Engineering - Standardizing Salary
 
-    2. `salary` was missing 82% but we kept it for further analysis.
+- Standardize Location Column
 
-    3. `schedule_type` had minimal nulls, only used 'Full-time' positions which accounted for 72% of data.
+- Date Formatting
 
-3. Data Transformation
+- Standardize Job Title
 
-    1. Recreated the salary columns based off of annual salary or off of salary rate depending
-    2. Created `title_cleaned` column
-    3. Dropped Rows that did not provide relevance to Data Analyst, Engineer, or Scientist
-    4. Created `description_cleaned` column for tokenization, normalizing, and lemmatizing.
+- Job Description NLP Processing
 
-4. Data Standardization
+- Creation of `description_cleaned`
 
-    1. From the salary columns, ensured the ones that had the data were standard across the data.
+- Define Keywords for `description_tokenized`
 
-5. Outliers
+- Schedule Types
 
-    1. Focused on full-time positions to account for the contractor positions that were creating outliers from pay.
-
-6. Text Data Cleaning
-
-    1. Utilized regex to clean up the text data in `description` column
-    2. Tokenized and Normalized text for NLP. 
-
-7. Date Formatting
-
-    1. Converted the `date_time`, `date_scraped`, `posted_at`, `posting_created` to datetime
-
-8. Duplicate Data
-
-    1. Dropped Rows that shared the same `job_id`
+![Alt text](images/prepped_dict.png)
 
 ---
 <br>
@@ -224,15 +235,15 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 4. What words are most common in data job descriptions
 
-5. What are the overall top things to learn for data jobs?
+5. What are the overall top skills to learn for data jobs?
 
-6. Do a majority of places allow wor from home or want you in the work place?
+6. Do a majority of places allow work from home or want you in the work place?
 
-7. What skills are most prevalent in our postings for programming languages, ML Algorithyms, tools? 
+7. What skills are most prevalent in our postings for programming languages, machine learning methods, tools? 
 
-8. When do we see most data jobs being posted?
+8. What time of year do we see most data jobs being posted?
 
-9. What are top skills overall?
+9. What are the most desirable skills?
 
 
 
@@ -288,6 +299,7 @@ param_grid = {
     "tfidf__max_features": [500, 750, 1000],
     "tfidf__min_df": [50, 100, 150],
     'tfidf__ngram_range': [(1, 1), (1, 2)]
+    }
 
 ```
 
@@ -295,26 +307,28 @@ param_grid = {
 
 ---
 
-### Best GridSearch:
+### Best GridSearches on Test Set:
 
-**Unbalanced DataSet**
+**Unbalanced Dataset (92% baseline)**
+
 ```python
 tfidf = TfidfVectorizer(max_df=1000, max_features=1000, min_df=100, ngram_range=(1, 2))
 logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 ```
 
-**Baseline:92%**
+**Train Set(Mean with 2 cross-validations):96%**
 
-**Train Set(Mean w/ 2 cross-validations):96%**
+# UPDATE
 
-**Test Set(Mean w/ 2 cross-validations):92%**
+**Test Set(Mean with 2 cross-validations):92%**
 
-**Balanced DataSet**
+---
+
+**Balanced Dataset(33% baseline)**
 ```python
 tfidf = TfidfVectorizer(max_df=1000, max_features=750, min_df=50, ngram_range=(1, 2))
 logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 ```
-**Baseline:33%**
 
 **Train Set(Mean w/ 2 cross-validations):97%**
 
@@ -330,7 +344,11 @@ logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 
 ## **How to Reproduce:**
 
-1. Clone this repo (required CSV is in support_files)
+1. Clone this repo
+
+2. Download CSV into /support_files/
+    - [name this "jobs.csv"](https://drive.google.com/file/d/1M5UibWPA48zynbNXbB-ZE9m8LVVn5MRR/view?usp=sharing) - Unprepped .csv (takes 10 minutes to prep)
+    - [name this "prepped_jobs.csv"](https://drive.google.com/file/d/1Lwsck50EeClEP7bAdqfP4DNZksWu0Uqp/view?usp=sharing) - Prepped .csv 
 
 2. Run the notebook.
 
@@ -346,40 +364,40 @@ logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 
 ### Recommendations
 
-##### - For Modeling:
+##### - Modeling Takeaways
 
 - We down-sampled our dataset in order to demonstrate an accurate model
     - Another option, with more time, would be to collect more Data Scientist and Engineer positions
-    - Data Analyst, will always have more representation than the other two, just due to more Analyst positions
+    - Data Analyst, will always have more representation than the other two, just due to more Analyst positions<br><br>
 
 - Our model is currently only being used to prove that our analysis of the data job skills are different between the three `titles`
 
 - Further data validation could be performed by including trigrams and quadgrams, but very computationally expensive
 
-##### - For Data Collection:
+##### - Data Collection Takeaways
 
 - Decided to use the 'Full-Time' positions only to deal with outliers
     - Freelance jobs will often pay much more, but don't guarantee employment or have benefits
-    - Freelance jobs also are not very applicable to entry level applicants
+    - Freelance jobs also are not very applicable to entry level applicants<br><br>
 
 - Trying to categorize by `sector` proved to be too inaccurate from the nature of the descriptions in the job posts
-    - Being able to <i>accurately</i> categorize by sector would add value, but would take too much time for this scope
+    - Being able to <i>accurately</i> categorize by sector would add value, but would take too much time for this scope<br><br>
 
 - Dataset had very little job positions for engineer/scientists due to the original search term being "Data Analyst"
-    - Scraping for all 3 search terms would add insight for the under-represented categories
+    - Scraping for all 3 search terms would add insight for the under-represented categories<br><br>
 
 - `location` in the dataset was primarily from one geographic area and did not include positions from the entire U.S.
     - Although the search was for the entire United States, it seems it was limited to a specific region
-    - If this was due to IP address, area could be more diversified by using a proxy 
+    - If this was due to IP address, area could be more diversified by using a proxy<br><br>
 
 - `date_posted` provided insights that certain fiscal quarters have increased hiring
 
 - We were able to distiguish skills for each `title` represented in the dataset
-    - this was validated by using a classification model to predict the `title`
+    - this was validated by using a classification model to predict the `title`<br><br>
 
 - `salary` was only present in 18% of the job postings. This represents a known issue for job searchers of no salary in the posting
 
-##### - For Dashboard
+##### - Dashboard & Interactive Plots Takeaways
 
 - Presenting data with an interactive graph can allow for users to answer their own potential questions
 
