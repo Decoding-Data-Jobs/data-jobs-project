@@ -91,9 +91,10 @@ def plot_top_skills(df, qty, title_cleaned=None):
     fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Postings:</b> %{y}<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=20))
 
     fig.update_layout(
-        title_text=f"<b style='font-size: 30px;'>{title_cleaned if title_cleaned else 'All Jobs'} Skills</b><br><i style='font-size: 20px;'>Salaries and Popularity</i>", 
-        title_x=0.1, font_color="white",
-        coloraxis_colorbar=dict(title="Average Annual Salary")
+         
+        
+        coloraxis_colorbar=dict(title="Average Annual Salary"),
+        height=600
     )
     return fig
 
@@ -103,6 +104,8 @@ title_cleaned = st.selectbox('Select job title', ['All Jobs'] + jobs_df_cleaned[
 
 if title_cleaned == 'All Jobs':
     title_cleaned = None
-
+with st.container():
+    st.title(f"{title_cleaned if title_cleaned else 'All Jobs'} Skills")
+    st.subheader(f"Salaries and Popularity")
 fig = plot_top_skills(jobs_df_cleaned, qty, title_cleaned)
-st.plotly_chart(fig)
+st.plotly_chart(fig, use_container_width=True)

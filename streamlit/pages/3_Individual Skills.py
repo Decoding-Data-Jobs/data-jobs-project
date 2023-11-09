@@ -7,6 +7,8 @@ st.set_page_config(page_title="Average Skill Salaries", page_icon="💰", layout
 })
 
 def interactive_skill_salary():
+    
+    
     # Load the data
     top_skills_df = pd.read_csv('../support_files/working_docs/top_skills.csv')
     jobs_df_cleaned = pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
@@ -27,53 +29,59 @@ def interactive_skill_salary():
         # Calculate the average salary for the selected skill
         avg_salary = skill_df['avg_salary'].mean()
 
-        # Create a bar plot
-        fig = px.bar(skill_df, x=skill_df.index, y='avg_salary', 
-                     hover_data=['avg_salary', 'description_tokens', 'company_name'],
-                     labels={'avg_salary':'Salary ($)', 'index':'Jobs WITH Salary'},
-                     title=f'Salary Distribution for Skill: {skill}',
-                     color='avg_salary',
-                     color_continuous_scale='Blues')
+        # Display in a container
+        with st.container():
 
-        fig.update_traces(
-            textfont_size=40,
-            hovertemplate='''<b>Company Name:</b><br>%{customdata[1]}<br><br><b>Description Tokens:</b><br>%{customdata[0]}<br><br><b>Average Salary:</b><br>$%{marker.color}<extra></extra>''',
-            hoverlabel=dict(font_size=20)
-        )
-        # Add a line for the average salary
-        fig.add_shape(
-            type='line',
-            line=dict(dash='dash', color='white'),
-            y0=avg_salary,
-            y1=avg_salary,
-            x0=0,
-            x1=1,
-            xref='paper',
-            yref='y',
-        )
+            # Display title
+            st.title(f'Salary Distribution for Skill: {skill}')
 
-        # Add a text label for the average salary
-        fig.add_annotation(
-            y=avg_salary + 15000,
-            x=0,
-            xref='paper',
-            yref='y',
-            text=f'Average Salary: ${avg_salary:.2f}',
-            showarrow=False,
-            font=dict(size= 20, color='white')
-        )
+            # Create a bar plot
+            fig = px.bar(skill_df, x=skill_df.index, y='avg_salary', 
+                        hover_data=['avg_salary', 'description_tokens', 'company_name'],
+                        labels={'avg_salary':'Salary ($)', 'index':'Jobs WITH Salary'},
+                        color='avg_salary',
+                        color_continuous_scale='Blues')
 
-        # Update layout
-        fig.update_layout(
-            autosize=True,
-            hovermode='closest',
-            showlegend=False,
-            yaxis=dict(title='Salary ($)'),
-            xaxis=dict(title='Jobs WITH Salary')
-        )
+            fig.update_traces(
+                textfont_size=40,
+                hovertemplate='''<b>Company Name:</b><br>%{customdata[1]}<br><br><b>Description Tokens:</b><br>%{customdata[0]}<br><br><b>Average Salary:</b><br>$%{marker.color}<extra></extra>''',
+                hoverlabel=dict(font_size=20)
+            )
+            # Add a line for the average salary
+            fig.add_shape(
+                type='line',
+                line=dict(dash='dash', color='white'),
+                y0=avg_salary,
+                y1=avg_salary,
+                x0=0,
+                x1=1,
+                xref='paper',
+                yref='y',
+            )
 
-        # Display the plot
-        st.plotly_chart(fig)
+            # Add a text label for the average salary
+            fig.add_annotation(
+                y=avg_salary + 15000,
+                x=0,
+                xref='paper',
+                yref='y',
+                text=f'Average Salary: ${avg_salary:.2f}',
+                showarrow=False,
+                font=dict(size= 20, color='white')
+            )
 
+            # Update layout
+            fig.update_layout(
+                autosize=True,
+                hovermode='closest',
+                showlegend=False,
+                yaxis=dict(title='Salary ($)'),
+                xaxis=dict(title='Jobs WITH Salary'),
+                height=600
+            )
+
+            # Display the plot
+            st.plotly_chart(fig, use_container_width=True)
+        
 # Call the function
 interactive_skill_salary()

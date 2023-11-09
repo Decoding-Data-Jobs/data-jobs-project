@@ -41,7 +41,7 @@ st.markdown("""
 st.markdown("""
 # Introduction
 
-Words and things
+We are students at CodeUp that are currently looking for Data Analyst Employment. We created this dashboard to help us understand the Data Analyst job market in the United States. We hope that this dashboard will help us and others like us to better understand what skills are needed to be successful in this field.
 
 # Project Summary
 

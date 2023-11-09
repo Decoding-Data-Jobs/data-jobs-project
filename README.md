@@ -47,11 +47,11 @@ October - November 2023<br>
 
 2. Acquire Job Postings
 
-2. Explore Separately to see the data from different angles.
+3. Data Cleaning
 
-3. Feature Extraction
+4. Text Preprocessing
 
-4. Model Training
+5. Feature Extraction
 
 6. Model Training
 
@@ -62,19 +62,22 @@ October - November 2023<br>
 
 ## **Project Goal**
 
-**Goal Text Here**
+**To develop a dynamic tool to assist aspiring Data Analysts to navigate the Job Market / Job Posts**
 
 --- 
 
 ## **Project Description**
 
-- NLP: To find commonalities in posts.
+**Webscraping Google for job posts, analyzing these posts for most common skills / salaries / sectors / etc. and creating a dashboard for ease of access to visualize different aspects of the job postings**
 
-- Classification: To predict the location, job type, etc. based on other features
+---
 
-- Regression: To predict pay based on location/skills
 
-- Dashboard: Possibly include drop down boxes for skill/locations/job titles to demonstrate full stack data science capabilities
+<br>
+
+## **Hypothesis**
+
+We can pull job postings for data analysts and specify where the jobs are coming from, most postings by location, salaries, and determine if they are scientist, engineer, or analyst positions. 
 
 <br>
 
@@ -86,26 +89,15 @@ October - November 2023<br>
 
 ## **Acquire**
 
-1. What skills are most common between job postings?
+#### *Rate Limits & Ethics*
 
-2. Which skills pay the most?
+[**Google's Robots.txt**](google.com/robots.txt)
 
-3. What are the most common locations for work?
+```
+User-agent: *
+Disallow: /search
 
-4. 
-
-<br>
-
----
-
-
-<br>
-
-## Acquire
-
-Data originated from Google Jobs “Data Analyst” postings. While we built a web scraper to pull the data ourselves, this Kaggle Dataset already has a year's worth of data and is adding 100~ daily by automation.
-
-Link: https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search/data?select=gsearch_jobs.csv
+```
 
 Google's Terms of Service explicitly disallow scraping of its services without permission. Scraping can lead to legal consequences. Although Google does not take legal action against scraping, it uses a range of defensive methods that makes scraping their results a challenging task, even when the scraping tool is realistically spoofing a normal web browser.
 
@@ -177,22 +169,72 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 ## **Preparing Data**
 
-*prep steps here*
+1. Redundant Columns
+
+    1. Dropped: `Unnamed: 0`,`extensions`, `index`, `thumbnail`, `search_term`, `commute_time`, `search_location`
+
+    2. Dropped: `salary_yearly`, `salary_hourly`, `salary_min`, `salary_max`, `salary_pay`, `salary_rate`, `description_tokens`
+
+2. Missing Data
+
+    1. Lots of Nulls in data for `work_from_home`, so we imputed the data with true / false
+
+    2. `salary` was missing 82% but we kept it for further analysis.
+
+    3. `schedule_type` had minimal nulls, only used 'Full-time' positions which accounted for 72% of data.
+
+3. Data Transformation
+
+    1. Recreated the salary columns based off of annual salary or off of salary rate depending
+    2. Created `title_cleaned` column
+    3. Dropped Rows that did not provide relevance to Data Analyst, Engineer, or Scientist
+    4. Created `description_cleaned` column for tokenization, normalizing, and lemmatizing.
+
+4. Data Standardization
+
+    1. From the salary columns, ensured the ones that had the data were standard across the data.
+
+5. Outliers
+
+    1. Focused on full-time positions to account for the contractor positions that were creating outliers from pay.
+
+6. Text Data Cleaning
+
+    1. Utilized regex to clean up the text data in `description` column
+    2. Tokenized and Normalized text for NLP. 
+
+7. Date Formatting
+
+    1. Converted the `date_time`, `date_scraped`, `posted_at`, `posting_created` to datetime
+
+8. Duplicate Data
+
+    1. Dropped Rows that shared the same `job_id`
 
 ---
 <br>
 
 ## **Exploration Questions**
 
-1. 
+1. What companies have the most job postings?
 
-2. 
+2. What is the location spread for our dataset?
 
-3. 
+3. Within the Google Jobs search, which site has the most postings? 
 
-4. 
+4. What words are most common in data job descriptions
 
-5. 
+5. What are the overall top things to learn for data jobs?
+
+6. Do a majority of places allow wor from home or want you in the work place?
+
+7. What skills are most prevalent in our postings for programming languages, ML Algorithyms, tools? 
+
+8. When do we see most data jobs being posted?
+
+9. What are top skills overall?
+
+
 
 <br>
 <br>
@@ -207,27 +249,76 @@ While it was undesirable to use a public dataset for analysis, I was able to fin
 
 Utilize GridSearch for best parameters for TF-IDF and LogisticRegression
 
+**Unbalanced DataSet**
+
 ```python
-# Grid Search Function
+# Create a pipeline
+pipeline = Pipeline(
+    [
+        ("tfidf", TfidfVectorizer()),
+        ("logreg", LogisticRegression(max_iter=1000, random_state=321)),
+    ]
+)
+
+param_grid = {
+    "logreg__C": [5, 10, 20],
+    "logreg__penalty": ["l1", "l2"],
+    "tfidf__max_df": [250, 500, 750, 1000],
+    "tfidf__max_features": [500, 750, 1000],
+    "tfidf__min_df": [50, 100, 150],
+    'tfidf__ngram_range': [(1, 1), (1, 2)]
+}
 
 ```
+**Balanced DataSet**
+
+```python
+# Create a pipeline
+pipeline = Pipeline(
+    [
+        ("tfidf", TfidfVectorizer()),
+        ("logreg", LogisticRegression(max_iter=1000, random_state=321)),
+    ]
+)
+
+param_grid = {
+    "logreg__C": [5, 10, 20],
+    "logreg__penalty": ["l1", "l2"],
+    "tfidf__max_df": [250, 500, 750, 1000],
+    "tfidf__max_features": [500, 750, 1000],
+    "tfidf__min_df": [50, 100, 150],
+    'tfidf__ngram_range': [(1, 1), (1, 2)]
+
+```
+
+
+
 ---
 
 ### Best GridSearch:
 
+**Unbalanced DataSet**
 ```python
-# Best Hyperparameters
-
+tfidf = TfidfVectorizer(max_df=1000, max_features=1000, min_df=100, ngram_range=(1, 2))
+logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 ```
 
-**Baseline:**
+**Baseline:92%**
 
-**Best cross-validation score:**
+**Train Set(Mean w/ 2 cross-validations):96%**
 
-**Train Set:**
+**Test Set(Mean w/ 2 cross-validations):92%**
 
-**Test Set:**
+**Balanced DataSet**
+```python
+tfidf = TfidfVectorizer(max_df=1000, max_features=750, min_df=50, ngram_range=(1, 2))
+logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
+```
+**Baseline:33%**
 
+**Train Set(Mean w/ 2 cross-validations):97%**
+
+**Test Set(Mean w/ 2 cross-validations):87%**
 <br>
 <br>
 
@@ -257,6 +348,49 @@ Utilize GridSearch for best parameters for TF-IDF and LogisticRegression
 
 ##### - For Modeling:
 
+- We down-sampled our dataset in order to demonstrate an accurate model
+    - Another option, with more time, would be to collect more Data Scientist and Engineer positions
+    - Data Analyst, will always have more representation than the other two, just due to more Analyst positions
+
+- Our model is currently only being used to prove that our analysis of the data job skills are different between the three `titles`
+
+- Further data validation could be performed by including trigrams and quadgrams, but very computationally expensive
 
 ##### - For Data Collection:
 
+- Decided to use the 'Full-Time' positions only to deal with outliers
+    - Freelance jobs will often pay much more, but don't guarantee employment or have benefits
+    - Freelance jobs also are not very applicable to entry level applicants
+
+- Trying to categorize by `sector` proved to be too inaccurate from the nature of the descriptions in the job posts
+    - Being able to <i>accurately</i> categorize by sector would add value, but would take too much time for this scope
+
+- Dataset had very little job positions for engineer/scientists due to the original search term being "Data Analyst"
+    - Scraping for all 3 search terms would add insight for the under-represented categories
+
+- `location` in the dataset was primarily from one geographic area and did not include positions from the entire U.S.
+    - Although the search was for the entire United States, it seems it was limited to a specific region
+    - If this was due to IP address, area could be more diversified by using a proxy 
+
+- `date_posted` provided insights that certain fiscal quarters have increased hiring
+
+- We were able to distiguish skills for each `title` represented in the dataset
+    - this was validated by using a classification model to predict the `title`
+
+- `salary` was only present in 18% of the job postings. This represents a known issue for job searchers of no salary in the posting
+
+##### - For Dashboard
+
+- Presenting data with an interactive graph can allow for users to answer their own potential questions
+
+- Rather than having scrolls of graphs, it could also be summed up with an interactive graph
+
+##### - Next Steps
+
+**Validation:** 
+- Set up a validation framework to periodically test the model on new job scrapings from Google and ensure its predictions remain accurate over time
+- If the model suddenly is inaccurate, this could represent a shift in the desired skills over time
+
+**Continuously add data for continued data insights**
+- Expand to the entire United States, rather than the limited geographic region
+- Continue scraping posts, to potentially identify upward and downward trends in certain skills desirability
