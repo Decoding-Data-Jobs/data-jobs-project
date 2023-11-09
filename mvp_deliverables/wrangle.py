@@ -21,11 +21,11 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import MWETokenizer, word_tokenize
 from ipywidgets import interact, widgets
 
-# +--------------------+
-# |                    |
-# |  K E Y W O R D S   |
-# |                    |
-# +--------------------+
+# +------------------------------------------+
+# |                                          |
+# |   D E F I N I N G     K E Y W O R D S    |
+# |                                          |
+# +------------------------------------------+
 
 # Picked out keywords based on all keywords (only looked words with 100+ occurrences)
 keywords_programming = [
@@ -404,17 +404,18 @@ keywords = (
 # |                          |
 # +--------------------------+
 
+
 def tokenize_normalize_lemmatize(text):
     # Ensure necessary resources are available
     try:
-        nltk.data.find('tokenizers/punkt')
+        nltk.data.find("tokenizers/punkt")
     except LookupError:
-        nltk.download('punkt')
+        nltk.download("punkt")
 
     try:
-        nltk.data.find('corpora/stopwords')
+        nltk.data.find("corpora/stopwords")
     except LookupError:
-        nltk.download('stopwords')
+        nltk.download("stopwords")
 
     lemmatizer = WordNetLemmatizer()
     tokens = word_tokenize(text)
@@ -425,6 +426,7 @@ def tokenize_normalize_lemmatize(text):
         if word.isalpha() and word.lower() not in stopwords.words("english")
     ]
     return tokens
+
 
 def process_description(description, keywords):
     """
@@ -482,13 +484,14 @@ def process_description(description, keywords):
 
     return detail
 
+
 def prepare_jobs(df, read_csv=False, cache=False):
     """
     1. Selects a subset of columns from the DataFrame.
     2. Drops duplicate rows based on the "job_id" column.
     3. Drops the "job_id" column.
     4. Fills null values in the "work_from_home" column with False.
-    5. Creates a new "cleaned_salary" column and performs several transformations on it 
+    5. Creates a new "cleaned_salary" column and performs several transformations on it
         to standardize the salary information.
     6. Extracts the pay rate from the "cleaned_salary" column.
     7. Drops all letters from the "cleaned_salary" column.
@@ -516,15 +519,20 @@ def prepare_jobs(df, read_csv=False, cache=False):
         jobs_df_cleaned = pd.read_csv("../support_files/working_docs/jobs_mvp.csv")
 
         # Convert the strings in 'description_cleaned' and 'description_tokens' back into lists
-        jobs_df_cleaned['description_cleaned'] = jobs_df_cleaned['description_cleaned'].apply(ast.literal_eval)
-        jobs_df_cleaned['description_tokens'] = jobs_df_cleaned['description_tokens'].apply(ast.literal_eval)
+        jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned[
+            "description_cleaned"
+        ].apply(ast.literal_eval)
+        jobs_df_cleaned["description_tokens"] = jobs_df_cleaned[
+            "description_tokens"
+        ].apply(ast.literal_eval)
 
         # Make the index date time
         jobs_df_cleaned.index = pd.to_datetime(jobs_df_cleaned["posting_created"])
 
         return jobs_df_cleaned
     try:
-        jobs_df_cleaned = df[[
+        jobs_df_cleaned = df[
+            [
                 "title",
                 "company_name",
                 "location",
@@ -537,45 +545,55 @@ def prepare_jobs(df, read_csv=False, cache=False):
                 "job_id",
                 "date_time",
                 "salary_pay",
-                "salary_rate"]]
+                "salary_rate",
+            ]
+        ]
 
         # Drop duplicates on the unique identifier
-        jobs_df_cleaned = jobs_df_cleaned.drop_duplicates(subset=["job_id"])   
+        jobs_df_cleaned = jobs_df_cleaned.drop_duplicates(subset=["job_id"])
 
         # Drop the column since we're not using it anymore
         jobs_df_cleaned = jobs_df_cleaned.drop(columns=["job_id"])
 
         # Fill nulls in work from home with False
-        jobs_df_cleaned["work_from_home"] = jobs_df_cleaned["work_from_home"].fillna(False)
+        jobs_df_cleaned["work_from_home"] = jobs_df_cleaned["work_from_home"].fillna(
+            False
+        )
 
         # Create a salary cleaned column out of a copy of salary
         jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["salary"]
 
         # Remove decimals and numeric character until you hit a - or [a-zA-Z]
-        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].str.replace(
-        r"\.\d+(?=[a-zA-Z-])", "", regex=True)
+        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned[
+            "cleaned_salary"
+        ].str.replace(r"\.\d+(?=[a-zA-Z-])", "", regex=True)
 
         # Replace 'K' or 'k' in the 'cleaned_salary' column with ',000'
         jobs_df_cleaned["cleaned_salary"] = (
-        jobs_df_cleaned["cleaned_salary"]
-        .str.replace("K", "000", case=False, regex=True)
-        .str.replace("k", "000", case=False, regex=True))
+            jobs_df_cleaned["cleaned_salary"]
+            .str.replace("K", "000", case=False, regex=True)
+            .str.replace("k", "000", case=False, regex=True)
+        )
 
         # Remove commas from all entries in the 'cleaned_salary' column
-        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].str.replace(
-        ",", "", regex=False)
+        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned[
+            "cleaned_salary"
+        ].str.replace(",", "", regex=False)
 
         # Extract pay rate
         jobs_df_cleaned["pay_rate"] = jobs_df_cleaned["cleaned_salary"].str.extract(
-        r"(\bhour\b|\bmonth\b|\byear\b)", expand=False)
+            r"(\bhour\b|\bmonth\b|\byear\b)", expand=False
+        )
 
         # Add "ly" to the entire column
         jobs_df_cleaned["pay_rate"] = jobs_df_cleaned["pay_rate"].str.replace(
-        r"(\bhour\b|\bmonth\b|\byear\b)", r"\1ly", regex=True)
+            r"(\bhour\b|\bmonth\b|\byear\b)", r"\1ly", regex=True
+        )
 
         # Drop all letters from salary cleaned column
-        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].str.replace(
-        r"[a-zA-Z]", "", regex=True)
+        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned[
+            "cleaned_salary"
+        ].str.replace(r"[a-zA-Z]", "", regex=True)
 
         # Function to get min salary
         def get_min_salary(salary):
@@ -587,57 +605,69 @@ def prepare_jobs(df, read_csv=False, cache=False):
             if len(values) == 1:
                 return values[0]
             return values[1]
-        
+
         # Make salary cleaned a string
-        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].astype(str)
+        jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].astype(
+            str
+        )
 
         # Apply the functions to get min_salary and max_salary columns
-        jobs_df_cleaned["min_salary"] = jobs_df_cleaned["cleaned_salary"].apply(get_min_salary)
-        jobs_df_cleaned["max_salary"] = jobs_df_cleaned["cleaned_salary"].apply(get_max_salary)
+        jobs_df_cleaned["min_salary"] = jobs_df_cleaned["cleaned_salary"].apply(
+            get_min_salary
+        )
+        jobs_df_cleaned["max_salary"] = jobs_df_cleaned["cleaned_salary"].apply(
+            get_max_salary
+        )
 
         # Make an avg_salary column using the average of min and max
         jobs_df_cleaned["avg_salary"] = (
-        jobs_df_cleaned["min_salary"].astype(float)
-        + jobs_df_cleaned["max_salary"].astype(float)
+            jobs_df_cleaned["min_salary"].astype(float)
+            + jobs_df_cleaned["max_salary"].astype(float)
         ) / 2
 
         # If pay rate is hourly, multiply min_salary, max_salary, and avg_salary by 2080
         jobs_df_cleaned.loc[
-            jobs_df_cleaned["pay_rate"] == "hourly", ["min_salary", "max_salary", "avg_salary"]
+            jobs_df_cleaned["pay_rate"] == "hourly",
+            ["min_salary", "max_salary", "avg_salary"],
         ] = (
             jobs_df_cleaned.loc[
                 jobs_df_cleaned["pay_rate"] == "hourly",
                 ["min_salary", "max_salary", "avg_salary"],
             ].astype(float)
-            * 2080)
+            * 2080
+        )
 
         # If pay rate is monthly, multiply min_salary, max_salary, and avg_salary by 12
         jobs_df_cleaned.loc[
-        jobs_df_cleaned["pay_rate"] == "monthly", ["min_salary", "max_salary", "avg_salary"]
-        ] = (
-        jobs_df_cleaned.loc[
             jobs_df_cleaned["pay_rate"] == "monthly",
             ["min_salary", "max_salary", "avg_salary"],
-        ].astype(float)
-        * 12)
+        ] = (
+            jobs_df_cleaned.loc[
+                jobs_df_cleaned["pay_rate"] == "monthly",
+                ["min_salary", "max_salary", "avg_salary"],
+            ].astype(float)
+            * 12
+        )
 
         # Drop the old salary
         jobs_df_cleaned = jobs_df_cleaned.drop(columns=["salary"])
 
         # Make them floats
-        jobs_df_cleaned['min_salary'] = jobs_df_cleaned["min_salary"].astype(float)
+        jobs_df_cleaned["min_salary"] = jobs_df_cleaned["min_salary"].astype(float)
         jobs_df_cleaned["max_salary"] = jobs_df_cleaned["max_salary"].astype(float)
 
         # Replace "nan" in cleaned_salary with nulls
         jobs_df_cleaned["cleaned_salary"] = jobs_df_cleaned["cleaned_salary"].replace(
-        "nan", np.nan)
+            "nan", np.nan
+        )
 
         # Make the column a string
         jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location"].astype(str)
 
         # Make a lambda for all the states and apply it to a state column, to reduce location values
         jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location_cleaned"].apply(
-            lambda x: x.split(",")[1].strip() if "," in x else x    )
+            lambda x: x.split(",")[1].strip() if "," in x else x
+        )
 
         # Create a dictionary with state abbreviations and full names
         state_dict = {
@@ -658,9 +688,9 @@ def prepare_jobs(df, read_csv=False, cache=False):
         }
 
         # Replace state abbreviations with full names
-        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location_cleaned"].replace(
-            state_dict
-        )
+        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned[
+            "location_cleaned"
+        ].replace(state_dict)
 
         # If the string has (+X others), change it to "Multiple Locations"
         jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location_cleaned"].apply(
@@ -668,12 +698,14 @@ def prepare_jobs(df, read_csv=False, cache=False):
         )
 
         # Remove leading and trailing white space
-        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location_cleaned"].str.strip()
+        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned[
+            "location_cleaned"
+        ].str.strip()
 
         # Replace "nan" with Unkown
-        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned["location_cleaned"].replace(
-            "nan", "Unknown"
-        )
+        jobs_df_cleaned["location_cleaned"] = jobs_df_cleaned[
+            "location_cleaned"
+        ].replace("nan", "Unknown")
 
         # Change date_time to date_scraped
         jobs_df_cleaned.rename(columns={"date_time": "date_scraped"}, inplace=True)
@@ -684,7 +716,9 @@ def prepare_jobs(df, read_csv=False, cache=False):
         )
 
         # Convert "date_scraped" to datetime
-        jobs_df_cleaned["date_scraped"] = pd.to_datetime(jobs_df_cleaned["date_scraped"])
+        jobs_df_cleaned["date_scraped"] = pd.to_datetime(
+            jobs_df_cleaned["date_scraped"]
+        )
 
         # Create "posting_created" column
         jobs_df_cleaned["posting_created"] = (
@@ -692,9 +726,9 @@ def prepare_jobs(df, read_csv=False, cache=False):
         )
 
         # Change posting_created to be date time formated with only hours and minutes
-        jobs_df_cleaned["posting_created"] = jobs_df_cleaned["posting_created"].dt.strftime(
-            "%Y-%m-%d %H:%M"
-        )
+        jobs_df_cleaned["posting_created"] = jobs_df_cleaned[
+            "posting_created"
+        ].dt.strftime("%Y-%m-%d %H:%M")
         # Make the index date time
         jobs_df_cleaned.index = pd.to_datetime(jobs_df_cleaned["posting_created"])
 
@@ -715,24 +749,33 @@ def prepare_jobs(df, read_csv=False, cache=False):
             lambda x: "Other" if x not in title_mapping.values() else x
         )
 
-        jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned["description"].apply(tokenize_normalize_lemmatize)
+        jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned["description"].apply(
+            tokenize_normalize_lemmatize
+        )
 
-        jobs_df_cleaned["description_tokens"] = jobs_df_cleaned["description"].apply(lambda x: process_description(x, keywords))
+        jobs_df_cleaned["description_tokens"] = jobs_df_cleaned["description"].apply(
+            lambda x: process_description(x, keywords)
+        )
 
         # If the schedule type does not have "Full-time", drop it
-        jobs_df_cleaned = jobs_df_cleaned[jobs_df_cleaned["schedule_type"] == "Full-time"]
+        jobs_df_cleaned = jobs_df_cleaned[
+            jobs_df_cleaned["schedule_type"] == "Full-time"
+        ]
 
         # Play a sound when completed
-        os.system('afplay /System/Library/Sounds/Ping.aiff')
+        os.system("afplay /System/Library/Sounds/Ping.aiff")
         if cache:
             # Export as MVP CSV
-            jobs_df_cleaned.to_csv("../support_files/working_docs/jobs_mvp.csv", index=False)
+            jobs_df_cleaned.to_csv(
+                "../support_files/working_docs/jobs_mvp.csv", index=False
+            )
 
         return jobs_df_cleaned
     except Exception as e:
-        os.system('afplay /System/Library/Sounds/Ping.aiff')
-        print('Prep failed.')
+        os.system("afplay /System/Library/Sounds/Ping.aiff")
+        print("Prep failed.")
         traceback.print_exc()
+
 
 def check_columns(DataFrame, reports=False, graphs=False, dates=False):
     """
@@ -854,6 +897,7 @@ def check_columns(DataFrame, reports=False, graphs=False, dates=False):
         ],
     )
 
+
 def preprocess_jobs_df(jobs_df):
     import pandas as pd
     import numpy as np
@@ -939,12 +983,14 @@ def preprocess_jobs_df(jobs_df):
         }
         df["sector"] = df["description_cleaned"].apply(
             lambda x: next(
-                (v for k, v in sector_mapping.items() if k in " ".join(x).lower()), "Other"
+                (v for k, v in sector_mapping.items() if k in " ".join(x).lower()),
+                "Other",
             )
         )
         return df
-    
+
         # Start preprocessing
+
     jobs_df_cleaned = jobs_df[
         [
             "title",
@@ -994,11 +1040,13 @@ def preprocess_jobs_df(jobs_df):
 
     return jobs_df_cleaned
 
+
 # +--------------------------+
 # |                          |
 # |  E X P L O R A T I O N   |
 # |                          |
 # +--------------------------+
+
 
 def get_top_skills(df, qty):
     """
@@ -1073,9 +1121,8 @@ def get_top_skills(df, qty):
 
     return top_skills_df
 
-def create_skill_plot(top_skills_df):
-    
 
+def create_skill_plot(top_skills_df):
     # Create a dropdown selector for the skill category
     skill_list_dropdown = widgets.Dropdown(
         options=[
@@ -1147,6 +1194,7 @@ def create_skill_plot(top_skills_df):
         plot_skills_data()
 
     plot_skills_data()
+
 
 def create_interactive_salary_plot(jobs_df_cleaned, top_skills_df):
     def interactive_skill_salary(b):
@@ -1246,7 +1294,8 @@ def create_interactive_salary_plot(jobs_df_cleaned, top_skills_df):
 
     display(skill_selector, plot_button)
 
-def create_skill_postings_plot(jobs_df_cleaned): #, get_top_skills):
+
+def create_skill_postings_plot(jobs_df_cleaned):  # , get_top_skills):
     def plot_top_skills(df, qty, title_cleaned=None):
         # Filter the dataframe based on the selected job title
         if title_cleaned:
@@ -1261,7 +1310,9 @@ def create_skill_postings_plot(jobs_df_cleaned): #, get_top_skills):
         ) * 100
 
         # Sort by number of postings
-        top_skills_df.sort_values(by="number_of_postings", ascending=False, inplace=True)
+        top_skills_df.sort_values(
+            by="number_of_postings", ascending=False, inplace=True
+        )
 
         # Plot it
         fig = px.bar(
@@ -1282,7 +1333,7 @@ def create_skill_postings_plot(jobs_df_cleaned): #, get_top_skills):
             title_text=f"<b style='font-size: 30px;'>{title_cleaned if title_cleaned else 'All Jobs'} Skills</b><br><i style='font-size: 20px;'>Salaries and Popularity</i>",
             title_x=0.1,
             font_color="black",
-                        coloraxis_colorbar=dict(title="Average Annual Salary"),
+            coloraxis_colorbar=dict(title="Average Annual Salary"),
             yaxis=dict(title="Percentage of Postings"),
         )
         fig.show()
@@ -1323,6 +1374,7 @@ def create_skill_postings_plot(jobs_df_cleaned): #, get_top_skills):
 
     display(qty_slider, title_dropdown, update_button)
 
+
 def plot_monthly_postings(df):
     """
     Plot the number of postings per month based on the DataFrame's datetime index.
@@ -1348,6 +1400,7 @@ def plot_monthly_postings(df):
 
     plt.xticks(rotation=45, ha="right")
     plt.show()
+
 
 def filtered_keywords(jobs_filtered, keywords, title=None, head=10):
     # get keywords in a column
@@ -1376,6 +1429,7 @@ def filtered_keywords(jobs_filtered, keywords, title=None, head=10):
     plt.xticks(rotation=45, ha="right")
     plt.title(f"Top {head} {title} for Data Jobs")
     plt.show(g)
+
 
 def plot_most_common_words(df, column_name, n):
     """
@@ -1426,6 +1480,7 @@ def plot_most_common_words(df, column_name, n):
     plt.ylabel("Word")
     plt.show()
 
+
 def eda_plot(df, column, topn=20):
     """
     This function takes a DataFrame, a column name, and a number as parameters.
@@ -1462,18 +1517,3 @@ def eda_plot(df, column, topn=20):
 
     # Display the plot
     plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
