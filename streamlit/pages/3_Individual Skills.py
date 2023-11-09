@@ -22,7 +22,8 @@ def interactive_skill_salary():
     if skill:  # Don't plot if skill is None
         # Filter the dataframe for jobs that mention the selected skill and have a salary
         skill_df = jobs_df_cleaned[jobs_df_cleaned['description_tokens'].apply(lambda x: skill in x) & jobs_df_cleaned['avg_salary'].notna()].sort_values(by='avg_salary')
-
+        # Filter the dataframe for jobs that mention the selected skill but do not have a salary
+        skill_df_no_salary = jobs_df_cleaned[jobs_df_cleaned['description_tokens'].apply(lambda x: skill in x) & jobs_df_cleaned['avg_salary'].isna()].sort_values(by='avg_salary')
         # Reset the index
         skill_df = skill_df.reset_index(drop=True)
 
@@ -33,14 +34,16 @@ def interactive_skill_salary():
         with st.container():
 
             # Display title
-            st.title(f'Salary Distribution for Skill: {skill}')
-
+            st.title(f'Salary Distribution by Skill: {skill}')
+            st.subheader(f'Posts With Salary: {len(skill_df)}')
+            st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
+            
             # Create a bar plot
             fig = px.bar(skill_df, x=skill_df.index, y='avg_salary', 
                         hover_data=['avg_salary', 'description_tokens', 'company_name'],
-                        labels={'avg_salary':'Salary ($)', 'index':'Jobs WITH Salary'},
+                        labels={'avg_salary':'Salary ($)', 'index':'Posts WITH Salary'},
                         color='avg_salary',
-                        color_continuous_scale='Blues')
+                        color_continuous_scale='Blues', title=(f'{str.capitalize(skill)}'))
 
             fig.update_traces(
                 textfont_size=40,
@@ -77,8 +80,9 @@ def interactive_skill_salary():
                 hovermode='closest',
                 showlegend=False,
                 yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=20)),
-                xaxis=dict(title='Jobs WITH Salary', title_font=dict(size=30), tickfont=dict(size=20)),
-                height=600
+                xaxis=dict(title='Posts WITH Salary', title_font=dict(size=30), tickfont=dict(size=20)),
+                height=600,
+                title=dict(x=0.5, y=0.9, xanchor='center', yanchor='top', font=dict(size=50))
             )
 
             # Display the plot
