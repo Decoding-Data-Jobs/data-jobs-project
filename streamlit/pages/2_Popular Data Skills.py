@@ -9,11 +9,11 @@ st.set_page_config(page_title="Popular Skills", page_icon="💰", layout="wide",
 # Load the data
 @st.cache_data
 def load_data():
-    return pd.read_csv('../support_files/working_docs/top_skills.csv')
+    return pd.read_csv('../support_files/top_skills.csv')
 
 @st.cache_data
 def load_full_data():
-    return pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
+    return pd.read_csv('../support_files/prepped_jobs.csv')
 
 jobs_df_cleaned = load_full_data()
 

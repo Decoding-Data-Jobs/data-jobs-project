@@ -17,13 +17,13 @@ st.set_page_config(page_title="Introduction", page_icon=None, layout="wide", ini
 # Load the data
 @st.cache_resource
 def load_data():
-    return pd.read_csv('../support_files/working_docs/top_skills.csv')
+    return pd.read_csv('../support_files/top_skills.csv')
 
 top_skills_df = load_data()
 
 @st.cache_resource
 def load_full_data():
-    return pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
+    return pd.read_csv('../support_files/prepped_jobs.csv')
 
 jobs_df_cleaned = load_full_data()
 
@@ -55,7 +55,7 @@ Words
 
 @st.cache_resource
 def load_original_data():
-    return pd.read_csv('../support_files/working_docs/jobs.csv')
+    return pd.read_csv('../support_files/jobs.csv')
 
 data = load_original_data()
 csv1 = data.to_csv(index=False)

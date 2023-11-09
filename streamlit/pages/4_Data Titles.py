@@ -11,7 +11,7 @@ st.set_page_config(page_title="Data Titles", page_icon=None, layout="wide", init
 
 # @st.cache_resource
 def load_full_data():
-    df = pd.read_csv('../support_files/working_docs/jobs_prepped.csv')
+    df = pd.read_csv('../support_files/prepped_jobs.csv')
     return df
 
 jobs_df_cleaned = load_full_data()

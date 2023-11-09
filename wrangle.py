@@ -514,11 +514,11 @@ def prepare_jobs(df, prepped_csv=False):
     Returns:
     A prepped dataframe
     """
-    file_path = "../support_files/prepped_jobs.csv"
+    file_path = "./support_files/prepped_jobs.csv"
 
     if os.path.isfile(file_path):
         # Read in CSV
-        jobs_df_cleaned = pd.read_csv("../support_files/prepped_jobs.csv")
+        jobs_df_cleaned = pd.read_csv(file_path)
 
         # Convert the strings in 'description_cleaned' and 'description_tokens' back into lists
         jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned[
@@ -1034,6 +1034,33 @@ def preprocess_jobs_df(jobs_df):
         tokenize_normalize_lemmatize
     )
     jobs_df_cleaned = create_sector_column(jobs_df_cleaned)
+
+    # Drop columns we won't be using
+    jobs_df_cleaned = jobs_df_cleaned[
+        [
+            # 'title',
+            "company_name",
+            # 'location',
+            "via",
+            # 'description',
+            "posted_at",
+            "schedule_type",
+            "work_from_home",
+            # 'date_scraped',
+            # 'salary_pay',
+            # 'salary_rate',
+            # 'cleaned_salary',
+            # 'pay_rate',
+            # 'min_salary',
+            # 'max_salary',
+            "avg_salary",
+            "location_cleaned",
+            "posting_created",
+            "title_cleaned",
+            "description_cleaned",
+            "description_tokens",
+        ]
+    ]
 
     return jobs_df_cleaned
 
