@@ -11,3 +11,4 @@ working.ipynb
 *.pyc
 /working_docs/
 support_files/working_docs/
+*.csv
