@@ -318,9 +318,7 @@ logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 
 **Train Set(Mean with 2 cross-validations):96%**
 
-# UPDATE
-
-**Test Set(Mean with 2 cross-validations):92%**
+**Test Set(Mean with 2 cross-validations):90%**
 
 ---
 
@@ -348,7 +346,7 @@ logit = LogisticRegression(C=5, penalty="l2", random_state=321, max_iter=1000)
 
 2. Download CSV into /support_files/
     - [name this "jobs.csv"](https://drive.google.com/file/d/1M5UibWPA48zynbNXbB-ZE9m8LVVn5MRR/view?usp=sharing) - Unprepped .csv (takes 10 minutes to prep)
-    - [name this "prepped_jobs.csv"](https://drive.google.com/file/d/1Lwsck50EeClEP7bAdqfP4DNZksWu0Uqp/view?usp=sharing) - Prepped .csv 
+    - [name this "prepped_jobs.csv"](https://drive.google.com/file/d/1FsXOyZgzOE0AgniY_hdtzTcmOu2KlDni/view?usp=sharing) - Prepped .csv 
 
 2. Run the notebook.
 
