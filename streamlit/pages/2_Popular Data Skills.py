@@ -126,7 +126,8 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
     with st.container():
 
         # Display Title
-        st.title(f'Data Jobs')
+        st.title(f"{skill_list[0]}")
+        
         st.subheader(f'Salaries and Popularity')
 
         fig = px.bar(df, x='skill', y='frequency (%)',
@@ -141,9 +142,13 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
 
         fig.update_layout( 
             font_color="white",
-            coloraxis_colorbar=dict(title="Average Annual Salary"),
+            coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=30), tickfont=dict(size=20)),
             height=600,
             width=1200,
+            yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=20)),
+            xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
+            
+            
     )
 
 

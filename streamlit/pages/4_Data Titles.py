@@ -91,9 +91,9 @@ def plot_top_skills(df, qty, title_cleaned=None):
     fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Postings:</b> %{y}<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=20))
 
     fig.update_layout(
-         
-        
-        coloraxis_colorbar=dict(title="Average Annual Salary"),
+        yaxis=dict(title='Number of Postings',title_font=dict(size=30), tickfont=dict(size=20)),
+        xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
+        coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=20), tickfont=dict(size=18)),
         height=600
     )
     return fig

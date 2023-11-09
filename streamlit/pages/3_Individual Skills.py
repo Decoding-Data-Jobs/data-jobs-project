@@ -72,11 +72,12 @@ def interactive_skill_salary():
 
             # Update layout
             fig.update_layout(
+                coloraxis_colorbar=dict(title='Salary', title_font=dict(size=20), tickfont=dict(size=18)),
                 autosize=True,
                 hovermode='closest',
                 showlegend=False,
-                yaxis=dict(title='Salary ($)'),
-                xaxis=dict(title='Jobs WITH Salary'),
+                yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=20)),
+                xaxis=dict(title='Jobs WITH Salary', title_font=dict(size=30), tickfont=dict(size=20)),
                 height=600
             )
 
