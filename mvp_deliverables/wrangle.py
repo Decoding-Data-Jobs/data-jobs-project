@@ -485,7 +485,7 @@ def process_description(description, keywords):
     return detail
 
 
-def prepare_jobs(df, read_csv=False, cache=False):
+def prepare_jobs(df, prepped_csv=False):
     """
     1. Selects a subset of columns from the DataFrame.
     2. Drops duplicate rows based on the "job_id" column.
@@ -514,9 +514,11 @@ def prepare_jobs(df, read_csv=False, cache=False):
     Returns:
     A prepped dataframe
     """
-    if read_csv:
+    file_path = "../support_files/prepped_jobs.csv"
+
+    if os.path.isfile(file_path):
         # Read in CSV
-        jobs_df_cleaned = pd.read_csv("../support_files/working_docs/jobs_mvp.csv")
+        jobs_df_cleaned = pd.read_csv("../support_files/prepped_jobs.csv")
 
         # Convert the strings in 'description_cleaned' and 'description_tokens' back into lists
         jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned[
@@ -764,11 +766,6 @@ def prepare_jobs(df, read_csv=False, cache=False):
 
         # Play a sound when completed
         os.system("afplay /System/Library/Sounds/Ping.aiff")
-        if cache:
-            # Export as MVP CSV
-            jobs_df_cleaned.to_csv(
-                "../support_files/working_docs/jobs_mvp.csv", index=False
-            )
 
         return jobs_df_cleaned
     except Exception as e:
