@@ -417,6 +417,9 @@ def tokenize_normalize_lemmatize(text):
     except LookupError:
         nltk.download("stopwords")
 
+    # Add 'data' to stopwords
+    stopwords.words("english").append("data")
+
     lemmatizer = WordNetLemmatizer()
     tokens = word_tokenize(text)
     # Convert to lowercase, remove punctuation and stopwords, and lemmatize
@@ -485,7 +488,7 @@ def process_description(description, keywords):
     return detail
 
 
-def prepare_jobs(df, prepped_csv=False):
+def prepare_jobs(jobs_df_cleaned):
     """
     1. Selects a subset of columns from the DataFrame.
     2. Drops duplicate rows based on the "job_id" column.
@@ -532,27 +535,9 @@ def prepare_jobs(df, prepped_csv=False):
         jobs_df_cleaned.index = pd.to_datetime(jobs_df_cleaned["posting_created"])
 
         return jobs_df_cleaned
-    try:
-        jobs_df_cleaned = df[
-            [
-                "title",
-                "company_name",
-                "location",
-                "via",
-                "description",
-                "posted_at",
-                "schedule_type",
-                "work_from_home",
-                "salary",
-                "job_id",
-                "date_time",
-                "salary_pay",
-                "salary_rate",
-            ]
-        ]
-
+    else:
         # Drop duplicates on the unique identifier
-        jobs_df_cleaned = jobs_df_cleaned.drop_duplicates(subset=["job_id"])
+        jobs_df_cleaned.drop_duplicates(subset=["job_id"], inplace=True)
 
         # Drop the column since we're not using it anymore
         jobs_df_cleaned = jobs_df_cleaned.drop(columns=["job_id"])
@@ -751,6 +736,9 @@ def prepare_jobs(df, prepped_csv=False):
             lambda x: "Other" if x not in title_mapping.values() else x
         )
 
+        # Drop "Other" title_cleaned
+        jobs_df_cleaned = jobs_df_cleaned[jobs_df_cleaned["title_cleaned"] != "Other"]
+
         jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned["description"].apply(
             tokenize_normalize_lemmatize
         )
@@ -766,12 +754,7 @@ def prepare_jobs(df, prepped_csv=False):
 
         # Play a sound when completed
         os.system("afplay /System/Library/Sounds/Ping.aiff")
-
-        return jobs_df_cleaned
-    except Exception as e:
-        os.system("afplay /System/Library/Sounds/Ping.aiff")
-        print("Prep failed.")
-        traceback.print_exc()
+    return jobs_df_cleaned
 
 
 def check_columns(DataFrame, reports=False, graphs=False, dates=False):
