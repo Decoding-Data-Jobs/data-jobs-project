@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+
 st.set_page_config(page_title="Average Skill Salaries", page_icon="💰", layout="wide", initial_sidebar_state="auto", menu_items={
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
@@ -34,9 +35,7 @@ def interactive_skill_salary():
         with st.container():
 
             # Display title
-            st.title(f'Salary Distribution of Individual Skills')
-            st.subheader(f'Posts With Salary: {len(skill_df)}')
-            st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
+            st.markdown(f"<h1 style='font-size:40px; text-align: center; color: white;'>Salary Distribution of Individual Skills</h1>", unsafe_allow_html=True)
             
             # Create a bar plot
             fig = px.bar(skill_df, x=skill_df.index, y='avg_salary', 
@@ -48,7 +47,7 @@ def interactive_skill_salary():
             fig.update_traces(
                 textfont_size=40,
                 hovertemplate='''<b>Company Name:</b><br>%{customdata[1]}<br><br><b>Description Tokens:</b><br>%{customdata[0]}<br><br><b>Average Salary:</b><br>$%{marker.color}<extra></extra>''',
-                hoverlabel=dict(font_size=20)
+                hoverlabel=dict(font_size=20, font_color='#FF4B4B')
             )
             # Add a line for the average salary
             fig.add_shape(
@@ -80,13 +79,16 @@ def interactive_skill_salary():
                 hovermode='closest',
                 showlegend=False,
                 yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=20)),
-                xaxis=dict(title='Jobs Postings with Salary<br>(Hover for Details)', title_font=dict(size=30), tickfont=dict(size=20)),
+                xaxis=dict(title='Jobs Postings with Salary<br><i>(Hover for Details)</i>', title_font=dict(size=30), tickfont=dict(size=20)),
                 height=600,
                 title=dict(x=0.5, y=0.9, xanchor='center', yanchor='top', font=dict(size=50))
             )
 
             # Display the plot
             st.plotly_chart(fig, use_container_width=True)
+
+            st.subheader(f'Posts With Salary: {len(skill_df)}')
+            st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
         
 # Call the function
 interactive_skill_salary()
