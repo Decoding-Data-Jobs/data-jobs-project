@@ -37,21 +37,31 @@ top_skills = filtered_data.nlargest(num_skills, role)
 # Plotting the data using Plotly
 fig = px.bar(top_skills, x='Word', y=role)
 
-st.markdown(f'<h1 style="font-size:40px; text-align:center;">Top {num_skills} Skills for {role}</h1>', unsafe_allow_html=True)
-st.markdown(f'<h2 style="font-size:20px; text-align:center;"><i>At least 10% more than other titles</i></h2>', unsafe_allow_html=True)
+st.markdown(f'<h1 style="font-size:40px; text-align:center;">{num_skills} Unique Words for {role} Descriptions</h1>', unsafe_allow_html=True)
+
+if role != 'Overall':
+    st.markdown(f'<h2 style="font-size:20px; text-align:center;"><i>At least 10% more than other titles</i></h2>', unsafe_allow_html=True)
+
+# Update hovertemplate based on the role
+if role == 'Overall':
+    hovertemplate = '<b>Word:</b> %{x} <br><b>Frequency:</b> %{y}% <br><extra></extra>'
+else:
+    other_roles = role_map[role]
+    hovertemplate = '<b>Word:</b> %{x} <br><b>' + role + ' Frequency:</b> %{y}%<br>' + \
+                    '<b>' + other_roles[0] + ' Frequency:</b> %{customdata[0]}%<br>' + \
+                    '<b>' + other_roles[1] + ' Frequency:</b> %{customdata[1]}%<br><extra></extra>'
+
+    fig.update_traces(customdata=top_skills[[other_roles[0], other_roles[1]]])
+
 
 fig.update_traces(textfont_size=40,
-                  hovertemplate='''
-<b>Word:</b> %{x} <br> \
-<b>Frequency:</b> %{y}% <br><extra></extra>''',
-                  hoverlabel=dict(font_size=30)) 
+                  hovertemplate=hovertemplate,
+                  hoverlabel=dict(font_size=30))
 
 fig.update_layout(
-    yaxis=dict(title='Frequency (%)',title_font=dict(size=30), tickfont=dict(size=20)),
+    yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=20)),
     xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
     height=600
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-st.write(top_skills)
