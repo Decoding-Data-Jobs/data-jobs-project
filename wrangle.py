@@ -14,12 +14,14 @@ import nltk
 import ipywidgets as widgets
 from IPython.display import display, clear_output
 import plotly.express as px
+import plotly.graph_objs as go
 
 # Specific functions from those libraries
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import MWETokenizer, word_tokenize
 from ipywidgets import interact, widgets
+
 
 # +------------------------------------------+
 # |                                          |
@@ -746,6 +748,17 @@ def prepare_jobs(jobs_df_cleaned):
         jobs_df_cleaned["description_tokens"] = jobs_df_cleaned["description"].apply(
             lambda x: process_description(x, keywords)
         )
+
+        # List of words to remove
+        words_to_remove = ["data", "experience", "business", "work"]
+
+        # Function to remove specific words
+        def remove_words(word_list):
+            return [word for word in word_list if word not in words_to_remove]
+
+        jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned[
+            "description_cleaned"
+        ].apply(remove_words)
 
         # If the schedule type does not have "Full-time", drop it
         jobs_df_cleaned = jobs_df_cleaned[
@@ -1524,3 +1537,92 @@ def eda_plot(df, column, topn=20):
 
     # Display the plot
     plt.show()
+
+
+def plot_top_words_frequency_with_plotly(df):
+    # Function to get top words
+    def get_top_words(df2, title, n=10, words_to_exclude=set()):
+        if title == "All Titles":
+            descriptions = df2["description_cleaned"]
+        else:
+            descriptions = df2[df2["title_cleaned"] == title]["description_cleaned"]
+
+        word_counts = Counter()
+        for description in descriptions:
+            words = set(str(description).split())  # Use a set to remove duplicates
+            word_counts.update(words)
+
+        total_descriptions = len(descriptions)
+
+        # Normalize the word counts
+        word_counts = {
+            word: count / total_descriptions
+            for word, count in word_counts.items()
+            if word not in words_to_exclude
+        }
+
+        # Sort the dictionary items by value and take the top n items
+        top_words = sorted(word_counts.items(), key=lambda item: item[1], reverse=True)[
+            :n
+        ]
+
+        return top_words
+
+    def plot_top_words_frequency_with_plotly(df):
+        # Get the common words in 'All Titles'
+        common_words = {
+            word for word, freq in get_top_words(df, "All Titles") if freq > 0.5
+        }
+
+        # Dropdown options
+        titles = df["title_cleaned"].unique()
+        titles = [title for title in titles if title != "Other"]  # Exclude 'Other'
+        titles.insert(0, "All Titles")  # Option for all titles
+
+        # Create a figure with a dropdown menu and slider
+        fig = go.Figure()
+
+        # Add traces for each title
+        for title in titles:
+            top_words = get_top_words(
+                df,
+                title,
+                words_to_exclude=(common_words if title != "All Titles" else set()),
+            )
+            words, frequencies = zip(*top_words)
+            fig.add_trace(
+                go.Bar(
+                    x=frequencies,
+                    y=words,
+                    name=title,
+                    orientation="h",
+                    visible=(
+                        title == "All Titles"
+                    ),  # Only the 'All Titles' trace is visible initially
+                )
+            )
+
+        # Update layout
+        fig.update_layout(
+            updatemenus=[
+                dict(
+                    buttons=[
+                        dict(
+                            label=title,
+                            method="update",
+                            args=[
+                                {"visible": [title == t for t in titles]},
+                                {"title": f"Top Words in {title}"},
+                            ],
+                        )
+                        for title in titles
+                    ],
+                    direction="down",
+                    showactive=True,
+                )
+            ]
+        )
+
+        fig.show()
+
+    plot_top_words_frequency_with_plotly(jobs_df_cleaned)
