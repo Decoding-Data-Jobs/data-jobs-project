@@ -11,7 +11,7 @@ def load_data():
 data = load_data()
 
 # Selecting the number of skills
-num_skills = st.slider('Select number of top skills', min_value=5, max_value=50, value=20, step=1)
+num_skills = st.slider('Select number of top skills', min_value=10, max_value=50, value=20, step=10)
 
 # Selecting the role
 role = st.selectbox('Select role', ['Overall', 'Data Analyst', 'Data Scientist', 'Data Engineer'])
@@ -47,7 +47,7 @@ if role == 'Overall':
     hovertemplate = '<b>Word:</b> %{x} <br><b>Frequency:</b> %{y}% <br><extra></extra>'
 else:
     other_roles = role_map[role]
-    hovertemplate = '<b>Word:</b> %{x} <br><b>' + role + ' Frequency:</b> %{y}%<br>' + \
+    hovertemplate = '<b>Word:</b> %{x} <br><br><b>' + role + ' Frequency:</b> %{y}%<br>' + \
                     '<b>' + other_roles[0] + ' Frequency:</b> %{customdata[0]}%<br>' + \
                     '<b>' + other_roles[1] + ' Frequency:</b> %{customdata[1]}%<br><extra></extra>'
 
@@ -56,7 +56,7 @@ else:
 
 fig.update_traces(textfont_size=40,
                   hovertemplate=hovertemplate,
-                  hoverlabel=dict(font_size=30))
+                  hoverlabel=dict(font_size=30, font_color="#FF4B4B"))
 
 fig.update_layout(
     yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=20)),
