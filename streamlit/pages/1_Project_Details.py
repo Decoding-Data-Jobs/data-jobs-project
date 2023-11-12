@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 
+
 st.set_page_config(page_title="Project Details", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items={
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
