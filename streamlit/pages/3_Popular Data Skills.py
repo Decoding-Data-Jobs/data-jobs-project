@@ -102,10 +102,10 @@ keywords_general = [
 keywords = keywords_programming + keywords_ML_Algorithms + keywords_analyst_tools + keywords_cloud_tools 
 
 def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_Algorithms, keyword_viz, keyword_bi, keyword_bi_2, keywords_cloud_tools, keyword_big_data):
-        # Slider button group for top N skills
+    # Slider button group for top N skills
     top_n = st.slider(
-       'Select Number of Top Skills:',
-       min_value=5, max_value=100)
+    'Select Number of Top Skills:',
+    min_value=10, max_value=100, value=20, step=10)
 
     
     # Dropdown widget for skill category
@@ -126,19 +126,15 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
     with st.container():
 
         # Display Title
-        st.title(f"{skill_list[0]}")
-        
-        st.subheader(f'Salaries and Popularity')
+        st.markdown(f"<h1 style='font-size:40px; text-align: center; color: white;'>{skill_list[0]}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='font-size:30px; text-align: center; color: white;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
 
         fig = px.bar(df, x='skill', y='frequency (%)',
                     color='avg_yearly_salary', color_continuous_scale='Blues')
 
         fig.update_traces(textfont_size=40,
-                        hovertemplate='''
-        <b>Skill:</b> %{x} <br> \
-        <b>Frequency:</b> %{y}% <br> \
-        <b>Average Salary:</b> $%{marker.color}<extra></extra>''',
-                        hoverlabel=dict(font_size=20))
+                        hovertemplate='''<b>Skill:</b> %{x}<br><b>Frequency:</b> %{y}%<br><b>Average Salary:</b> $%{marker.color}<extra></extra>''',
+                        hoverlabel=dict(font_size=30, font_color='#FF4B4B'))
 
         fig.update_layout( 
             font_color="white",
@@ -146,10 +142,8 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
             height=600,
             width=1200,
             yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=20)),
-            xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
-            
-            
-    )
+            xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),       
+            )
 
 
         st.plotly_chart(fig, use_container_width=True)
