@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 st.set_page_config(page_title="Personal Page", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items={
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
