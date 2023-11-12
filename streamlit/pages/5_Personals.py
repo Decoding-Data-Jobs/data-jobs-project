@@ -14,8 +14,8 @@ def personals_page():
     col1, col2 = st.columns(2)
 
     # Display an image in each column
-    col1.image("pages/images/zac.png")
-    col2.image("pages/images/josh.png")
+    col1.image("pages/images/zac.png", width=200, align='center')
+    col2.image("pages/images/josh.png", width=200, align='center')
 
     col1.markdown("<h3 style='text-align: center; color: white;'>Zacharia Schmitz</h1>", unsafe_allow_html=True)
     col2.markdown("<h3 style='text-align: center; color: white;'>Joshua Click</h1>", unsafe_allow_html=True)
