@@ -34,7 +34,7 @@ def interactive_skill_salary():
         with st.container():
 
             # Display title
-            st.title(f'Salary Distribution by Skill: {skill}')
+            st.title(f'Salary Distribution of Individual Skills')
             st.subheader(f'Posts With Salary: {len(skill_df)}')
             st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
             
@@ -43,7 +43,7 @@ def interactive_skill_salary():
                         hover_data=['avg_salary', 'description_tokens', 'company_name'],
                         labels={'avg_salary':'Salary ($)', 'index':'Posts WITH Salary'},
                         color='avg_salary',
-                        color_continuous_scale='Blues', title=(f'{str.capitalize(skill)}'))
+                        color_continuous_scale='Blues', title=f'{str.capitalize(skill)}')
 
             fig.update_traces(
                 textfont_size=40,
@@ -80,7 +80,7 @@ def interactive_skill_salary():
                 hovermode='closest',
                 showlegend=False,
                 yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=20)),
-                xaxis=dict(title='Posts WITH Salary', title_font=dict(size=30), tickfont=dict(size=20)),
+                xaxis=dict(title='Jobs Postings with Salary<br>(Hover for Details)', title_font=dict(size=30), tickfont=dict(size=20)),
                 height=600,
                 title=dict(x=0.5, y=0.9, xanchor='center', yanchor='top', font=dict(size=50))
             )
