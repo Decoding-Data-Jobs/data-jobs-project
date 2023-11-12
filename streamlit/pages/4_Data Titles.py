@@ -5,6 +5,7 @@ import numpy as np
 import plotly.express as px
 import ast
 
+
 st.set_page_config(page_title="Data Titles", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items={
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
@@ -88,7 +89,7 @@ def plot_top_skills(df, qty, title_cleaned=None):
     # Plot it
     fig = px.bar(top_skills_df, x='skill', y='frequency (%)', color='avg_yearly_salary', color_continuous_scale='Blues')
 
-    fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Frequency:</b> %{y}%<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=20))
+    fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Frequency:</b> %{y}%<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=30, font_color="#FF4B4B"))
 
     fig.update_layout(
         yaxis=dict(title='Frequency (%)',title_font=dict(size=30), tickfont=dict(size=20)),
@@ -99,7 +100,7 @@ def plot_top_skills(df, qty, title_cleaned=None):
     return fig
 
 # Interactive elements
-qty = st.slider('Select number of top skills', 10, 50, 10)
+qty = st.slider('Select number of top skills', 10, 50, 10, 10)
 titles = jobs_df_cleaned['title_cleaned'].unique().tolist()
 titles = [title for title in titles if title != 'Other']
 title_cleaned = st.selectbox('Select job title', ['All Jobs'] + titles)
@@ -107,7 +108,8 @@ title_cleaned = st.selectbox('Select job title', ['All Jobs'] + titles)
 if title_cleaned == 'All Jobs':
     title_cleaned = None
 with st.container():
-    st.title(f"{title_cleaned if title_cleaned else 'All Jobs'} Skills")
-    st.subheader(f"Salaries and Popularity")
+    # Display Title
+    st.markdown(f"<h1 style='font-size:40px; text-align: center; color: white;'>{title_cleaned if title_cleaned else 'All Jobs'} Skills</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='font-size:30px; text-align: center; color: white;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
 fig = plot_top_skills(jobs_df_cleaned, qty, title_cleaned)
 st.plotly_chart(fig, use_container_width=True)
