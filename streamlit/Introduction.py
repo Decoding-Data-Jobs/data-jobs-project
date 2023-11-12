@@ -15,55 +15,30 @@ st.set_page_config(page_title="Introduction", page_icon=None, layout="wide", ini
 # streamlit hello
 
 # Load the data
-@st.cache_resource
+@st.cache_data
 def load_data():
     return pd.read_csv('../support_files/top_skills.csv')
 
 top_skills_df = load_data()
 
-@st.cache_resource
+@st.cache_data
 def load_full_data():
     return pd.read_csv('../support_files/prepped_jobs.csv')
 
-jobs_df_cleaned = load_full_data()
+@st.cache_data
+def load_job_data():
+    return pd.read_csv('../support_files/jobs_stripped.csv')
 
+jobs = load_job_data()
+
+st.image('pages/images/wordcloud.png')
 
 st.markdown("""
-<div style="text-align: center"> 
+<h2 style="font-size:30px; text-align:center;">We developed this dynamic tool that empowers aspiring data analysts to navigate the job market with precision and confidence.</h2>
 
-# Decoding Data Jobs
-
-(picture here)
-
-</div>
+<h2 style="font-size:20px; text-align:center;">Our project uses 33,000 job postings that were scraped from Google and then processed with machine learning models to validate the results. We're not just sifting through text; we're decoding the jargon of job descriptions to help future data analysts on the hunt for their dream roles. We provide them with a competitive edge by revealing the skills, qualifications, and trends that matter most.</h2>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-# Introduction
-
-We are students at CodeUp that are currently looking for Data Analyst Employment. We created this dashboard to help us understand the Data Analyst job market in the United States. We hope that this dashboard will help us and others like us to better understand what skills are needed to be successful in this field.
-
-# Project Summary
-
-More words and things
-
-### Planning
-
-Words
-
-""")
-
-@st.cache_resource
-def load_original_data():
-    return pd.read_csv('../support_files/jobs.csv')
-
-data = load_original_data()
-csv1 = data.to_csv(index=False)
-
-st.download_button(
-    label="Download Original Data (156MB)",
-    data=csv1,
-    file_name="data_jobs.csv",
-    mime="csv")
-
-st.dataframe(data)
+st.markdown('Original DataSet We Worked With:')
+# Read in and display jobs_stripped.csv
+st.write(jobs)
