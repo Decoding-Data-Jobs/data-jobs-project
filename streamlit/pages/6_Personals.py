@@ -5,10 +5,11 @@ st.set_page_config(page_title="Personal Page", page_icon=None, layout="wide", in
 })
 
 def personals_page():
-    # Page Title
-    st.title("About Us")
+    st.markdown("""
+    <h2 style="font-size:30px; text-align:center;">Thanks for checking out our project!</h2>
 
-    st.markdown("""Two Air Force veterans who met during the CodeUp Technology Data Science Bootcamp...""")
+    <h2 style="font-size:20px; text-align:center;">Contact us below for any inquiries.</h2>
+    """, unsafe_allow_html=True)
     
     # Create two columns
     col1, col2, col3, col4, col5 = st.columns(5)
