@@ -9,7 +9,7 @@ st.set_page_config(page_title="Data Titles", page_icon=None, layout="wide", init
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
 
-# @st.cache_resource
+@st.cache_data
 def load_full_data():
     df = pd.read_csv('../support_files/prepped_jobs.csv')
     return df
@@ -25,7 +25,7 @@ def get_top_skills(df, qty, title_cleaned=None):
     
     # Initialize an empty dictionary to store the skills and their counts
     skills_counts = {}
-    
+
     # Loop over the values in the 'description_tokens' column
     for val in df.description_tokens.values:
         # Check if 'description_tokens' is not an empty list
@@ -82,25 +82,27 @@ def plot_top_skills(df, qty, title_cleaned=None):
     # Get the top skills
     top_skills_df = get_top_skills(df, qty, title_cleaned)
 
-    # Sort by number of postings
-    top_skills_df.sort_values(by='number_of_postings', ascending=False, inplace=True)
+    # Sort by frequency
+    top_skills_df.sort_values(by='frequency (%)', ascending=False, inplace=True)
 
     # Plot it
-    fig = px.bar(top_skills_df, x='skill', y='number_of_postings', color='avg_yearly_salary', color_continuous_scale='Blues')
+    fig = px.bar(top_skills_df, x='skill', y='frequency (%)', color='avg_yearly_salary', color_continuous_scale='Blues')
 
-    fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Postings:</b> %{y}<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=20))
+    fig.update_traces(textfont_size=40, hovertemplate='''<b>Skill:</b> %{x}<br><b>Frequency:</b> %{y}%<br><b>Average Annual Salary:</b> $%{marker.color}<extra></extra>''', hoverlabel=dict(font_size=20))
 
     fig.update_layout(
-        yaxis=dict(title='Number of Postings',title_font=dict(size=30), tickfont=dict(size=20)),
+        yaxis=dict(title='Frequency (%)',title_font=dict(size=30), tickfont=dict(size=20)),
         xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
         coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=20), tickfont=dict(size=18)),
         height=600
     )
     return fig
 
-# Assuming you have a DataFrame `df` loaded
+# Interactive elements
 qty = st.slider('Select number of top skills', 1, 50, 10)
-title_cleaned = st.selectbox('Select job title', ['All Jobs'] + jobs_df_cleaned['title_cleaned'].unique().tolist())
+titles = jobs_df_cleaned['title_cleaned'].unique().tolist()
+titles = [title for title in titles if title != 'Other']
+title_cleaned = st.selectbox('Select job title', ['All Jobs'] + titles)
 
 if title_cleaned == 'All Jobs':
     title_cleaned = None
