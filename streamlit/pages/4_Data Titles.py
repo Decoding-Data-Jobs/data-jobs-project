@@ -99,7 +99,7 @@ def plot_top_skills(df, qty, title_cleaned=None):
     return fig
 
 # Interactive elements
-qty = st.slider('Select number of top skills', 1, 50, 10)
+qty = st.slider('Select number of top skills', 10, 50, 10)
 titles = jobs_df_cleaned['title_cleaned'].unique().tolist()
 titles = [title for title in titles if title != 'Other']
 title_cleaned = st.selectbox('Select job title', ['All Jobs'] + titles)
