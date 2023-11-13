@@ -78,7 +78,7 @@ def interactive_skill_salary(top_skills_df, jobs_df_cleaned):
                 yref='y',
                 text=f'Average Salary: ${avg_salary:.2f}',
                 showarrow=False,
-                font=dict(size= 20)
+                font=dict(size= 20, color='#FF4B4B')
             )
 
             # Update layout
