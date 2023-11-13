@@ -6,7 +6,7 @@ st.set_page_config(page_title="Personal Page", page_icon=None, layout="wide", in
 })
 
 def personals_page():
-    st.image("thanks.png")
+    st.image("streamlit/pages/images/thanks.png")
     st.markdown("""
 
     <h2 style="font-size:20px; text-align:center;"><i>Contact us below for any inquiries.</i></h2>
@@ -15,8 +15,8 @@ def personals_page():
     # Create two columns
     col1, col2, col3, col4, col5 = st.columns(5)
 
-    col2.image("zac.png", use_column_width=True)
-    col4.image("click.png", use_column_width=True)
+    col2.image("streamlit/pages/images/zac.png", use_column_width=True)
+    col4.image("streamlit/pages/images/click.png", use_column_width=True)
 
     col2.markdown("<h3 style='text-align: center; color: white;'>Zacharia Schmitz</h3>", unsafe_allow_html=True)
     col4.markdown("<h3 style='text-align: center; color: white;'>Joshua Click</h3>", unsafe_allow_html=True)
