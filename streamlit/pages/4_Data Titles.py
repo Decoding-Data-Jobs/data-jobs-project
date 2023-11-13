@@ -12,7 +12,7 @@ st.set_page_config(page_title="Data Titles", page_icon=None, layout="wide", init
 
 @st.cache_data
 def load_full_data():
-    df = pd.read_csv('../support_files/prepped_jobs.csv')
+    df = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
     return df
 
 jobs_df_cleaned = load_full_data()

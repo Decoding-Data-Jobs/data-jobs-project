@@ -11,8 +11,8 @@ def interactive_skill_salary():
     
     
     # Load the data
-    top_skills_df = pd.read_csv('../support_files/top_skills.csv')
-    jobs_df_cleaned = pd.read_csv('../support_files/prepped_jobs.csv')
+    top_skills_df = pd.read_csv('https://drive.google.com/uc?export=download&id=1Ai3JtDGpIKdRkt01WHAHHH63uJ2ITy4n')
+    jobs_df_cleaned = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
 
     # Get the top skills sorted alphabetically
     sorted_skills = sorted(top_skills_df['skill'].unique())

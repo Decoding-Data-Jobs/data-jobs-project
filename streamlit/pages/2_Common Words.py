@@ -5,7 +5,7 @@ import plotly.express as px
 # Load the data
 @st.cache_data
 def load_data():
-    data = pd.read_csv('../support_files/word_percentages.csv')
+    data = pd.read_csv('https://drive.google.com/uc?export=download&id=1ONBUTpnHU5WQygAFjfYzPVjZAREqkslj')
     return data
 
 data = load_data()

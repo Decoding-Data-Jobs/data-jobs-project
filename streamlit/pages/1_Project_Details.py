@@ -12,13 +12,13 @@ st.set_page_config(page_title="Project Details", page_icon=None, layout="wide", 
 
 @st.cache_resource
 def load_full_data():
-    return pd.read_csv('../support_files/prepped_jobs.csv')
+    return pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
 
 jobs_df_cleaned = load_full_data()
 
 def plot_monthly_postings():
     # Load the data
-    jobs_df_cleaned = pd.read_csv('../support_files/prepped_jobs.csv')
+    jobs_df_cleaned = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
 
     # Make a new df with date time index
     jobs_df_cleaned_date = jobs_df_cleaned.copy()
