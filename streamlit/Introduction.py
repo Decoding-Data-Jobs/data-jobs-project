@@ -14,7 +14,7 @@ st.set_page_config(page_title="Introduction", page_icon=None, layout="wide", ini
 # DEMO APP:
 # streamlit hello
 
-st.image('wordcloud.png')
+st.image('streamlit/pages/images/wordcloud.png')
 
 st.markdown("""
 <h2 style="font-size:27px; text-align:center;">We developed this dynamic tool that empowers aspiring data analysts to navigate the job market with precision and confidence.</h2>
