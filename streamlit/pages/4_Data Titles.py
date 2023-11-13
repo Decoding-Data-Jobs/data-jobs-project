@@ -109,7 +109,7 @@ if title_cleaned == 'All Jobs':
     title_cleaned = None
 with st.container():
     # Display Title
-    st.markdown(f"<h1 style='font-size:40px; text-align: center; color: white;'>{title_cleaned if title_cleaned else 'All Jobs'} Skills</h1>", unsafe_allow_html=True)
-    st.markdown(f"<h2 style='font-size:30px; text-align: center; color: white;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='font-size:40px; text-align: center;'>{title_cleaned if title_cleaned else 'All Jobs'} Skills</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='font-size:30px; text-align: center;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
 fig = plot_top_skills(jobs_df_cleaned, qty, title_cleaned)
 st.plotly_chart(fig, use_container_width=True)
