@@ -14,12 +14,12 @@ def load_skills_data():
 
 top_skills_df = load_skills_data()
 
-@st.cache_data
-def load_jobs_data():
+@st.cache_resource
+def load_full_data():
     df = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
     return df
 
-jobs_df_cleaned = load_jobs_data()
+jobs_df_cleaned = load_full_data()
 
 def interactive_skill_salary(top_skills_df, jobs_df_cleaned):
 
