@@ -1060,6 +1060,22 @@ def preprocess_jobs_df(jobs_df):
 
     return jobs_df_cleaned
 
+def prepped_csv():
+    # Read in CSV
+    jobs_df_cleaned = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
+
+    # Convert the strings in 'description_cleaned' and 'description_tokens' back into lists
+    jobs_df_cleaned["description_cleaned"] = jobs_df_cleaned[
+        "description_cleaned"
+    ].apply(ast.literal_eval)
+    jobs_df_cleaned["description_tokens"] = jobs_df_cleaned[
+        "description_tokens"
+    ].apply(ast.literal_eval)
+
+    # Make the index date time
+    jobs_df_cleaned.index = pd.to_datetime(jobs_df_cleaned["posting_created"])
+
+    return jobs_df_cleaned
 
 # +--------------------------+
 # |                          |
@@ -1625,4 +1641,4 @@ def plot_top_words_frequency_with_plotly(df):
 
         fig.show()
 
-    plot_top_words_frequency_with_plotly(jobs_df_cleaned)
+    plot_top_words_frequency_with_plotly(df)
