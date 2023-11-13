@@ -21,7 +21,3 @@ st.markdown("""
 
 <h2 style="font-size:20px; text-align:center;">Our project uses 33,000 job postings that were scraped from Google and then processed with machine learning models to validate the results. We're not just sifting through text; we're decoding the jargon of job descriptions to help future data analysts on the hunt for their dream roles. We provide them with a competitive edge by revealing the skills, qualifications, and trends that matter most.</h2>
 """, unsafe_allow_html=True)
-
-st.markdown('Original DataSet We Worked With:')
-# Read in and display jobs_stripped.csv
-st.write(jobs)
