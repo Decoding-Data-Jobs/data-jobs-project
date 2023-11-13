@@ -19,9 +19,9 @@ def load_jobs_data():
     df = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
     return df
 
-sorted_skills = load_jobs_data()
+jobs_df_cleaned = load_jobs_data()
 
-def interactive_skill_salary(top_skills_df, sorted_skills):
+def interactive_skill_salary(top_skills_df, jobs_df_cleaned):
 
     # Get the top skills sorted alphabetically
     sorted_skills = sorted(top_skills_df['skill'].unique())
@@ -100,4 +100,4 @@ def interactive_skill_salary(top_skills_df, sorted_skills):
             st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
         
 # Call the function
-interactive_skill_salary(top_skills_df, sorted_skills)
+interactive_skill_salary(top_skills_df, jobs_df_cleaned)
