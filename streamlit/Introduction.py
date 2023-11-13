@@ -14,23 +14,6 @@ st.set_page_config(page_title="Introduction", page_icon=None, layout="wide", ini
 # DEMO APP:
 # streamlit hello
 
-# Load the data
-@st.cache_data
-def load_data():
-    return pd.read_csv('../support_files/top_skills.csv')
-
-top_skills_df = load_data()
-
-@st.cache_data
-def load_full_data():
-    return pd.read_csv('../support_files/prepped_jobs.csv')
-
-@st.cache_data
-def load_job_data():
-    return pd.read_csv('../support_files/jobs_stripped.csv')
-
-jobs = load_job_data()
-
 st.image('pages/images/wordcloud.png')
 
 st.markdown("""
