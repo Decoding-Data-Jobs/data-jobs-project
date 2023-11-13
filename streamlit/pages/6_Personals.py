@@ -6,10 +6,10 @@ st.set_page_config(page_title="Personal Page", page_icon=None, layout="wide", in
 })
 
 def personals_page():
+    st.image("pages/images/thanks.png")
     st.markdown("""
-    <h2 style="font-size:30px; text-align:center;">Thanks for checking out our project!</h2>
 
-    <h2 style="font-size:20px; text-align:center;">Contact us below for any inquiries.</h2>
+    <h2 style="font-size:20px; text-align:center;"><i>Contact us below for any inquiries.</i></h2>
     """, unsafe_allow_html=True)
     
     # Create two columns
