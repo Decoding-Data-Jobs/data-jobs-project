@@ -1,4 +1,2 @@
 matplotlib
 plotly
-ast
-time
