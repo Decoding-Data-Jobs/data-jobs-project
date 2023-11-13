@@ -126,8 +126,8 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
     with st.container():
 
         # Display Title
-        st.markdown(f"<h1 style='font-size:40px; text-align: center; color: white;'>{skill_list[0]}</h1>", unsafe_allow_html=True)
-        st.markdown(f"<h2 style='font-size:30px; text-align: center; color: white;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='font-size:40px; text-align: center;'>{skill_list[0]}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='font-size:30px; text-align: center;'><i>Salaries and Popularity</i></h2>", unsafe_allow_html=True)
 
         fig = px.bar(df, x='skill', y='frequency (%)',
                     color='avg_yearly_salary', color_continuous_scale='Blues')
@@ -136,8 +136,7 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
                         hovertemplate='''<b>Skill:</b> %{x}<br><b>Frequency:</b> %{y}%<br><b>Average Salary:</b> $%{marker.color}<extra></extra>''',
                         hoverlabel=dict(font_size=30, font_color='#FF4B4B'))
 
-        fig.update_layout( 
-            font_color="white",
+        fig.update_layout(
             coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=30), tickfont=dict(size=20)),
             height=600,
             width=1200,
