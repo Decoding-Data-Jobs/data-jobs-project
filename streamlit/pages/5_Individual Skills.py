@@ -7,12 +7,21 @@ st.set_page_config(page_title="Average Skill Salaries", page_icon="💰", layout
     "About": "https://www.linkedin.com/in/zschmitz https://github.com/Zacharia-Schmitz"
 })
 
-def interactive_skill_salary():
-    
-    
-    # Load the data
-    top_skills_df = pd.read_csv('https://drive.google.com/uc?export=download&id=1Ai3JtDGpIKdRkt01WHAHHH63uJ2ITy4n')
-    jobs_df_cleaned = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
+@st.cache_data
+def load_skills_data():
+    df = pd.read_csv('https://drive.google.com/uc?export=download&id=1Ai3JtDGpIKdRkt01WHAHHH63uJ2ITy4n')
+    return df
+
+top_skills_df = load_skills_data()
+
+@st.cache_data
+def load_jobs_data():
+    df = pd.read_csv('https://drive.google.com/uc?export=download&id=1S0GQlhjUc3WN0nLWIVeiSRDvWWTDUdE1')
+    return df
+
+sorted_skills = load_jobs_data()
+
+def interactive_skill_salary(top_skills_df, sorted_skills):
 
     # Get the top skills sorted alphabetically
     sorted_skills = sorted(top_skills_df['skill'].unique())
@@ -52,7 +61,7 @@ def interactive_skill_salary():
             # Add a line for the average salary
             fig.add_shape(
                 type='line',
-                line=dict(dash='dash', color='white'),
+                line=dict(dash='dash'),
                 y0=avg_salary,
                 y1=avg_salary,
                 x0=0,
@@ -69,7 +78,7 @@ def interactive_skill_salary():
                 yref='y',
                 text=f'Average Salary: ${avg_salary:.2f}',
                 showarrow=False,
-                font=dict(size= 20, color='white')
+                font=dict(size= 20)
             )
 
             # Update layout
@@ -91,4 +100,4 @@ def interactive_skill_salary():
             st.subheader(f'Posts Without Salary: {len(skill_df_no_salary)}')
         
 # Call the function
-interactive_skill_salary()
+interactive_skill_salary(top_skills_df, sorted_skills)
