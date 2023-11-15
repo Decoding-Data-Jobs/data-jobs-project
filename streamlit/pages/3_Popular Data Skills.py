@@ -137,7 +137,7 @@ def plot_skills_data(top_skills_df, keywords, keywords_programming, keywords_ML_
                         hoverlabel=dict(font_size=30, font_color='#FF4B4B'))
 
         fig.update_layout(
-            coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=30), tickfont=dict(size=24)),
+            coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=24), tickfont=dict(size=20)),
             height=600,
             width=1200,
             yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=24)),

@@ -87,8 +87,8 @@ def interactive_skill_salary(top_skills_df, jobs_df_cleaned):
                 autosize=True,
                 hovermode='closest',
                 showlegend=False,
-                yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=20)),
-                xaxis=dict(title='Jobs Postings with Salary<br><i>(Hover for Details)</i>', title_font=dict(size=30), tickfont=dict(size=20)),
+                yaxis=dict(title='Salary ($)', title_font=dict(size=30), tickfont=dict(size=24)),
+                xaxis=dict(title='Jobs Postings with Salary<br><i>(Hover for Details)</i>', title_font=dict(size=30), tickfont=dict(size=24)),
                 height=600,
                 title=dict(x=0.5, y=0.9, xanchor='center', yanchor='top', font=dict(size=50))
             )
