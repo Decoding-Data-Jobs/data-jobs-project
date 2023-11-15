@@ -95,7 +95,7 @@ def plot_top_skills(df, qty, title_cleaned=None):
     fig.update_layout(
         yaxis=dict(title='Frequency (%)',title_font=dict(size=30), tickfont=dict(size=24)),
         xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=24)),
-        coloraxis_colorbar=dict(title="Average Annual Salary", title_font=dict(size=20), tickfont=dict(size=18)),
+        coloraxis_colorbar=dict(title="Avg Annual Salary", title_font=dict(size=18), tickfont=dict(size=16)),
         height=600
     )
     return fig
