@@ -60,8 +60,8 @@ fig.update_traces(textfont_size=40,
                   hoverlabel=dict(font_size=30, font_color="#FF4B4B"))
 
 fig.update_layout(
-    yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=20)),
-    xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=20)),
+    yaxis=dict(title='Frequency (%)', title_font=dict(size=30), tickfont=dict(size=24)),
+    xaxis=dict(title='Skill', title_font=dict(size=30), tickfont=dict(size=24)),
     height=600
 )
 
