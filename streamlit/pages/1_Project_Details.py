@@ -446,6 +446,12 @@ def about_page():
     - Expand to the entire United States, rather than the limited geographic region
     - Continue scraping posts, to potentially identify upward and downward trends in certain skills desirability
     ---
+
+    [Back to Top](#decoding-data-jobs)]
+    [Next Page](https://data-jobs.streamlit.app/Common_Words]            
+
+
+
     """)
 
 # Call the function to display the about page
