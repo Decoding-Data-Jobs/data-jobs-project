@@ -447,10 +447,8 @@ def about_page():
     - Continue scraping posts, to potentially identify upward and downward trends in certain skills desirability
     ---
 
-    [Back to Top](#decoding-data-jobs)]
-    [Next Page](https://data-jobs.streamlit.app/Common_Words]            
-
-
+    [Back to Top](#decoding-data-jobs)
+                            
 
     """)
 
